@@ -1,0 +1,31 @@
+.position {
+  box-sizing: border-box;
+  max-width: 1300px;
+  display: flex;
+  margin: 0 auto;
+  align-items: center;
+}
+
+.link {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.menu {
+  display: flex;
+  margin: 0;
+  display: flex;
+  flex-wrap: nowrap;
+  flex: 2 1 auto;
+}
+
+.text {
+  color: var(--colors-interface-accent);
+}
+
+.box {
+  display: flex;
+  flex: 4 2 auto;
+}
