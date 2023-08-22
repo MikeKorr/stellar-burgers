@@ -1,5 +1,5 @@
 import { combineReducers, createStore } from "redux";
-import { composeWithDevTools } from "redux-devtools-extension";
+
 import { ingredientReducer } from "./reducers/ingredientsReducer";
 import { scrollReducer } from "./reducers/scrollReduser";
 import { detailReducer } from "./reducers/detailsReducer";
@@ -16,8 +16,4 @@ const rootReducer = combineReducers({
   orderReducer,
 });
 
-export const store = createStore(
-  rootReducer,
-  composeWithDevTools(),
-  applyMiddleware(thunk)
-);
+export const store = createStore(rootReducer, applyMiddleware(thunk));

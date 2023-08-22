@@ -1,8 +1,6 @@
 import {
   ConstructorElement,
   DragIcon,
-  Button,
-  CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./BurgerConstructor.module.css";
 import { useDrag, useDrop } from "react-dnd";
@@ -20,7 +18,7 @@ import { ingItem } from "../../utils/prop-types";
 
 export default function BurgerConstructor({ changeModal }) {
   const dispatch = useDispatch();
-  const main = useSelector((state) => state.constructorReducer.mains);
+  const mainCollect = useSelector((state) => state.constructorReducer.mains);
   const bunCollect = useSelector((state) => state.constructorReducer.buns);
   const [, dropIng] = useDrop(() => ({
     accept: "ingredient",
@@ -39,7 +37,7 @@ export default function BurgerConstructor({ changeModal }) {
 
   const ordId = useMemo(() => {
     return bunCollect.map((el) => el._id);
-  }, [main]);
+  }, [bunCollect]);
 
   const requestId = () => {
     dispatch(getOrder(ordId));
@@ -75,7 +73,7 @@ export default function BurgerConstructor({ changeModal }) {
         })}
       </div>
       <div className={styles.main + " custom-scroll"} ref={dropConst}>
-        {main.map((item, index) => {
+        {mainCollect.map((item, index) => {
           if (item.type !== "bun") {
             return (
               <BurgerConstElement
@@ -137,9 +135,9 @@ function BurgerConstElement({ elem, delElem, id, index }) {
       if (!ref.current) {
         return;
       }
-      const dragIndex = item.index;
-      const hoverIndex = index;
-      if (dragIndex === hoverIndex) {
+      const dragItemIndex = item.index;
+      const hoverItemIndex = index;
+      if (dragItemIndex === hoverItemIndex) {
         return;
       }
       const hoverBoundingRect = ref.current?.getBoundingClientRect();
@@ -147,14 +145,14 @@ function BurgerConstElement({ elem, delElem, id, index }) {
         (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
       const clientOffset = monitor.getClientOffset();
       const hoverClientY = clientOffset.y - hoverBoundingRect.top;
-      if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
+      if (dragItemIndex < hoverItemIndex && hoverClientY < hoverMiddleY) {
         return;
       }
-      if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
+      if (dragItemIndex > hoverItemIndex && hoverClientY > hoverMiddleY) {
         return;
       }
-      changeCardPosition(dragIndex, hoverIndex);
-      item.index = hoverIndex;
+      changeCardPosition(dragItemIndex, hoverItemIndex);
+      item.index = hoverItemIndex;
     },
   });
 

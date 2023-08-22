@@ -5,8 +5,9 @@ import { useEffect, useState } from "react";
 import Modal from "../Modal/Modal";
 import { IngredientsDetails } from "../IngredientsDetails/IngredientsDetails";
 import { OrderDetails } from "../OrderDetails/OrderDetails";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { SET_INGREDIENTS_ACTION } from "../../services/actions";
+import { baseUrl, checkResponse } from "../../utils/api";
 
 // import { compose, createStore, applyMiddleware } from "redux";
 // import { compose, createStore } from "redux";
@@ -20,12 +21,6 @@ import { SET_INGREDIENTS_ACTION } from "../../services/actions";
 // const store = createStore(rootReducer, enhancer);
 
 function App() {
-  const {
-    ingredient: { ingredient },
-  } = useSelector((store) => ({
-    ingredient: store.ingredientReducer,
-  }));
-
   const [isModalOpen, setIsModalOpen] = useState(false);
   const dispatch = useDispatch();
   const [itemModal, setItemModal] = useState("");
@@ -42,15 +37,12 @@ function App() {
   }
 
   useEffect(() => {
-    fetch("https://norma.nomoreparties.space/api/ingredients")
-      .then((res) => {
-        if (res.ok) {
-          return res.json().then((data) => {
-            dispatch(SET_INGREDIENTS_ACTION(data.data));
-          });
-        }
-        return Promise.reject(`Ошибка: ${res.status}`);
+    fetch(baseUrl + "/ingredients")
+      .then(checkResponse)
+      .then((data) => {
+        dispatch(SET_INGREDIENTS_ACTION(data.data));
       })
+
       .catch((err) => {
         console.log(err);
       });
@@ -63,7 +55,7 @@ function App() {
       {isModalOpen && (
         <>
           <Modal setIsModalOpen={setIsModalOpen}>
-            {itemModal == "Order" ? <OrderDetails /> : <IngredientsDetails />}
+            {itemModal === "Order" ? <OrderDetails /> : <IngredientsDetails />}
           </Modal>
         </>
       )}

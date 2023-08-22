@@ -1,3 +1,5 @@
+import { reqData } from "../../utils/api";
+
 export const SET_INGREDIENTS = "SET_INGREDIENTS";
 export const SET_INGREDIENTS_ACTION = (ingredients) => {
   return {
@@ -29,11 +31,6 @@ export const SCROLL_ING_ACTION = (item) => ({
 export const GET_ING_REQUEST = "GET_ING_REQUEST";
 export const GET_ING_ERR = "GET_ING_ERR";
 export const GET_ING_DONE = "GET_ING_DONE";
-
-const GET_ING_DONE_ACTION = (data) => ({
-  type: GET_ING_DONE,
-  payload: data,
-});
 
 export function getIngs() {}
 
@@ -90,19 +87,7 @@ export const GET_ORDER_REQUEST_ACTION = () => ({
   type: GET_ORDER_REQUEST,
 });
 
-export const reqData = (url, options) => {
-  return fetch(url, options).then(checkResponse);
-};
-
-const checkResponse = (res) => {
-  if (res.ok) {
-    return res.json();
-  }
-  return Promise.reject(`Ошибка ${res.status}`);
-};
-
 export const getOrder = (id) => {
-  const url = "https://norma.nomoreparties.space/api/orders";
   const options = {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -111,7 +96,7 @@ export const getOrder = (id) => {
     }),
   };
   return (dispatch) => {
-    reqData(url, options)
+    reqData(id, options)
       .then(({ order: { number } }) => {
         dispatch(GET_ORDER_DONE_ACTION(number));
       })
