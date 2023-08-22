@@ -1,4 +1,6 @@
 import { reqData } from "../../utils/api";
+import { baseUrl } from "../../utils/api";
+import { checkResponse } from "../../utils/api";
 
 export const SET_INGREDIENTS = "SET_INGREDIENTS";
 export const SET_INGREDIENTS_ACTION = (ingredients) => {
@@ -102,5 +104,18 @@ export const getOrder = (id) => {
       })
       .then(() => dispatch(CLEAR_CONSTRUCTOR_ACTION()))
       .catch((e) => console.log(e));
+  };
+};
+
+export const getIngElements = () => {
+  return (dispatch) => {
+    return fetch(baseUrl + "/ingredients")
+      .then(checkResponse)
+      .then((data) => {
+        dispatch(SET_INGREDIENTS_ACTION(data.data));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 };

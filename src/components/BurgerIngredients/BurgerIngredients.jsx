@@ -1,9 +1,9 @@
-import { Bun, Main, Sauce } from "../Ingredient/Ingredient";
 import styles from "./BurgerIngredients.module.css";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useRef } from "react";
 import { SET_TAB_ACTION, SCROLL_ING_ACTION } from "../../services/actions";
+import { IngredientList } from "../Ingredient/Ingredient";
 
 export default function BurgerIngredients({ setIsModalOpen, changeModal }) {
   const dispatch = useDispatch();
@@ -66,7 +66,8 @@ export default function BurgerIngredients({ setIsModalOpen, changeModal }) {
             <span className={styles.name} ref={refBun}>
               Булки
             </span>
-            <Bun
+            <IngredientList
+              type="bun"
               ingType={"Булки"}
               setIsModalOpen={setIsModalOpen}
               changeModal={changeModal}
@@ -76,7 +77,8 @@ export default function BurgerIngredients({ setIsModalOpen, changeModal }) {
             <span className={styles.name} ref={refSauce}>
               Соусы
             </span>
-            <Sauce
+            <IngredientList
+              type="sauce"
               ingType={"Соусы"}
               setIsModalOpen={setIsModalOpen}
               changeModal={changeModal}
@@ -86,7 +88,8 @@ export default function BurgerIngredients({ setIsModalOpen, changeModal }) {
             <span className={styles.name} ref={refMain}>
               Начинка
             </span>
-            <Main
+            <IngredientList
+              type="main"
               ingType={"Начинка"}
               setIsModalOpen={setIsModalOpen}
               changeModal={changeModal}
@@ -107,7 +110,7 @@ function BurgerComponents() {
   };
 
   return (
-    <div style={{ display: "flex" }}>
+    <div className={styles.flex}>
       <Tab value="bun" active={current === "bun"} onClick={setCurrent}>
         Булки
       </Tab>

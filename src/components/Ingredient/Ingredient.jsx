@@ -11,86 +11,29 @@ import { useMemo } from "react";
 import { ADD_DETAILS_ACTION } from "../../services/actions";
 import PropTypes from "prop-types";
 import { ingItem } from "../../utils/prop-types";
-export function Bun({ ingType, setIsModalOpen, changeModal }) {
+
+export function IngredientList({ type, ingType, setIsModalOpen, changeModal }) {
   const ingredients = useSelector(
     (state) => state.ingredientReducer.ingredient
   );
   return (
-    <div>
+    <>
       <p className="text text_type_main-medium">{ingType}</p>
       <div className={styles.grid + " pt-6"}>
-        {ingredients.map((item) => {
-          if (item.type == "bun") {
-            return (
-              <div draggable key={item._id}>
-                <ProtoIngredient
-                  key={item._id}
-                  item={item}
-                  setIsModalOpen={setIsModalOpen}
-                  changeModal={changeModal}
-                />
-              </div>
-            );
-          }
-        })}
+        {ingredients
+          .filter((item) => item.type === type)
+          .map((item) => (
+            <div draggable key={item._id}>
+              <ProtoIngredient
+                key={item._id}
+                item={item}
+                setIsModalOpen={setIsModalOpen}
+                changeModal={changeModal}
+              />
+            </div>
+          ))}
       </div>
-    </div>
-  );
-}
-
-export function Sauce({ ingType, setIsModalOpen, changeModal }) {
-  const ingredients = useSelector(
-    (state) => state.ingredientReducer.ingredient
-  );
-
-  return (
-    <div>
-      <p className="text text_type_main-medium">{ingType}</p>
-      <div className={styles.grid + " pt-6"}>
-        {ingredients.map((item) => {
-          if (item.type == "sauce") {
-            return (
-              <div draggable key={item._id}>
-                <ProtoIngredient
-                  key={item._id}
-                  item={item}
-                  setIsModalOpen={setIsModalOpen}
-                  changeModal={changeModal}
-                />
-              </div>
-            );
-          }
-        })}
-      </div>
-    </div>
-  );
-}
-
-export function Main({ ingType, setIsModalOpen, changeModal }) {
-  const ingredients = useSelector(
-    (state) => state.ingredientReducer.ingredient
-  );
-
-  return (
-    <div>
-      <p className="text text_type_main-medium">{ingType}</p>
-      <div className={styles.grid + " pt-6"}>
-        {ingredients.map((item) => {
-          if (item.type == "main") {
-            return (
-              <div key={item._id}>
-                <ProtoIngredient
-                  key={item._id}
-                  item={item}
-                  setIsModalOpen={setIsModalOpen}
-                  changeModal={changeModal}
-                />
-              </div>
-            );
-          }
-        })}
-      </div>
-    </div>
+    </>
   );
 }
 
@@ -148,22 +91,6 @@ function ProtoIngredient({ item, setIsModalOpen, changeModal }) {
 
 ProtoIngredient.propTypes = {
   item: ingItem.isRequired,
-  setIsModalOpen: PropTypes.func.isRequired,
-  changeModal: PropTypes.func.isRequired,
-};
-
-Main.propTypes = {
-  ingType: PropTypes.string.isRequired,
-  setIsModalOpen: PropTypes.func.isRequired,
-  changeModal: PropTypes.func.isRequired,
-};
-Bun.propTypes = {
-  ingType: PropTypes.string.isRequired,
-  setIsModalOpen: PropTypes.func.isRequired,
-  changeModal: PropTypes.func.isRequired,
-};
-Sauce.propTypes = {
-  ingType: PropTypes.string.isRequired,
   setIsModalOpen: PropTypes.func.isRequired,
   changeModal: PropTypes.func.isRequired,
 };

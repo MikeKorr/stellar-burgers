@@ -4,7 +4,7 @@ import styles from "./AppMain.module.css";
 
 export default function AppMain({ setIsModalOpen, changeModal }) {
   return (
-    <div className={styles.main}>
+    <main className={styles.main}>
       <BurgerIngredients
         setIsModalOpen={setIsModalOpen}
         changeModal={changeModal}
@@ -13,6 +13,6 @@ export default function AppMain({ setIsModalOpen, changeModal }) {
         setIsModalOpen={setIsModalOpen}
         changeModal={changeModal}
       />
-    </div>
+    </main>
   );
 }
