@@ -11,7 +11,7 @@ export default function Modal({ children, setIsModalOpen }) {
   useEffect(() => {
     function onEsc(evt) {
       if (evt.code === "Escape") {
-        setIsModalOpen(false);
+        handleClose();
       }
     }
     document.addEventListener("keydown", onEsc);
@@ -34,7 +34,7 @@ export default function Modal({ children, setIsModalOpen }) {
         </div>
         {children}
       </div>
-      <Overlay setIsModalOpen={setIsModalOpen} />
+      <Overlay handleClose={handleClose} />
     </>,
     modalRoot
   );

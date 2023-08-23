@@ -3,14 +3,10 @@ import PropTypes from "prop-types";
 
 const modalRoot = document.getElementById("react-modal");
 
-export default function Overlay({ setIsModalOpen }) {
-  const handleClick = () => {
-    setIsModalOpen(false);
-  };
-
-  return <div className={styles.overlay} onClick={handleClick}></div>;
+export default function Overlay({ handleClose }) {
+  return <div className={styles.overlay} onClick={handleClose}></div>;
 }
 
 Overlay.propTypes = {
-  setIsModalOpen: PropTypes.func.isRequired,
+  handleClose: PropTypes.func.isRequired,
 };

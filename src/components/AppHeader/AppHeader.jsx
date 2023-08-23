@@ -3,8 +3,8 @@ import styles from "./AppHeader.module.css";
 
 export default function AppHeader() {
   return (
-    <div className={styles.position}>
+    <header className={styles.position}>
       <Header />
-    </div>
+    </header>
   );
 }
