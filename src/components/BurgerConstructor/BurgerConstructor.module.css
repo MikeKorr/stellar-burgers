@@ -1,0 +1,34 @@
+.ing {
+  display: flex;
+  align-items: center;
+}
+
+.main {
+  width: 590px;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  height: 400px;
+  justify-content: stretch;
+}
+
+.hidden {
+  visibility: hidden;
+}
+
+.left {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.box {
+  display: flex;
+  align-items: center;
+}
+
+.const {
+  display: "flex";
+  flex-direction: "column";
+  gap: "10px";
+}

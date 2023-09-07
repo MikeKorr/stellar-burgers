@@ -1,0 +1,31 @@
+.ingredient {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  background-color: rgba(0, 0, 0, 0);
+}
+
+.grid {
+  display: grid;
+  margin: 0;
+
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  row-gap: 32px;
+  column-gap: 17px;
+}
+
+.block {
+  display: flex;
+  align-items: center;
+}
+
+.center {
+  text-align: center;
+}
+
+.counter {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
