@@ -5,31 +5,38 @@ import {
   ProfileIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./Header.module.css";
-
+import { NavLink } from "react-router-dom";
 export default function Header() {
+  const login = JSON.parse(sessionStorage.getItem("login"));
+
   return (
     <div className={styles.position + " text text_type_main-default"}>
       <div className={styles.menu + " mt-4 mb-4"}>
-        <a className={styles.link + " p-5 mr-2"}>
+        <NavLink to="/" exact={true} className={styles.link + " p-5 mr-2"}>
           <BurgerIcon type="primary" />
-          <span className="ml-2">Конструктор</span>
-        </a>
-        <a className={styles.link + " p-5"}>
-          <ListIcon type="secondary" />
+          <span className="text text_type_main-default text_color_inactive ml-2">
+            Конструктор
+          </span>
+        </NavLink>
+
+        <NavLink to="#" exact={true} className={styles.link + " p-5"}>
+          <ListIcon type="primary" />
           <span className="text text_type_main-default text_color_inactive ml-2">
             Лента заказов
           </span>
-        </a>
+        </NavLink>
       </div>
       <div className={styles.box}>
         <Logo />
       </div>
-      <a className={styles.link + " p-5"}>
-        <ProfileIcon type="secondary" />
+      <NavLink
+        to={login ? { pathname: "/profile" } : { pathname: "/login" }}
+        className={styles.link + " p-5"}
+      >
         <span className="text text_type_main-default text_color_inactive ml-2">
           Личный кабинет
         </span>
-      </a>
+      </NavLink>
     </div>
   );
 }

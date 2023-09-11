@@ -15,8 +15,10 @@ import { getOrder } from "../../services/actions";
 import { useMemo } from "react";
 import PropTypes from "prop-types";
 import { ingItem } from "../../utils/prop-types";
+import { Redirect } from "react-router-dom";
 
 export default function BurgerConstructor({ changeModal }) {
+  const login = useSelector((state) => state.loginReducer.login);
   const dispatch = useDispatch();
   const mainCollect = useSelector((state) => state.constructorReducer.mains);
   const bunCollect = useSelector((state) => state.constructorReducer.buns);
@@ -114,6 +116,9 @@ export default function BurgerConstructor({ changeModal }) {
         onClick={() => {
           changeModal("Order");
           requestId();
+          if (!login) {
+            return <Redirect to={"/login"} />;
+          }
         }}
       >
         <OrderButton />

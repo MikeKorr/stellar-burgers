@@ -7,6 +7,10 @@ import { constructorReducer } from "./reducers/construcoReducer";
 import { orderReducer } from "./reducers/orderReducer";
 import { applyMiddleware } from "redux";
 import thunk from "redux-thunk";
+import { forgotpassReducer } from "./reducers/forgotpassReducer";
+import { loginReducer } from "./reducers/loginReducer";
+import { profileReducer } from "./reducers/profileReducers";
+import { registrationReducer } from "./reducers/registrationReducer";
 
 const rootReducer = combineReducers({
   ingredientReducer,
@@ -14,6 +18,10 @@ const rootReducer = combineReducers({
   detailReducer,
   constructorReducer,
   orderReducer,
+  forgotpassReducer,
+  loginReducer,
+  profileReducer,
+  registrationReducer,
 });
 
 export const store = createStore(rootReducer, applyMiddleware(thunk));
