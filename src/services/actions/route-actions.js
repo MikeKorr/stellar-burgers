@@ -96,10 +96,10 @@ export const userLogin = (user) => {
   return (dispatch) => {
     request(loginUrl, options)
       .then((data) => {
-        const { done, refreshToken, accessToken } = data;
-        if (done) {
-          setCookie("accessToken", accessToken.split("Bearer ")[1]);
-          setCookie("refreshToken", refreshToken);
+        const { success, refreshToken, accessToken } = data;
+        if (success) {
+          setCookie("access", accessToken.split("Bearer ")[1]);
+          setCookie("refresh", refreshToken);
           dispatch(USER_LOG_ACTION(data));
         }
       })
@@ -121,8 +121,8 @@ export const userLogout = () => {
   return (dispatch) => {
     request(logoutUrl, options)
       .then((data) => {
-        const { done } = data;
-        if (done) {
+        const { success } = data;
+        if (success) {
           dispatch(USER_LOGOUT_ACTION(data));
         }
       })
@@ -166,7 +166,7 @@ export const userReg = (user) => {
 export const GET_PASS = "GET_PASS";
 const GET_PASS_ACTION = (payload) => ({
   type: GET_PASS,
-  payload,
+  payload: payload,
 });
 
 export const getForgotPass = () => {
@@ -182,8 +182,8 @@ export const getForgotPass = () => {
   };
   return (dispatch) => {
     request(passUrl, options)
-      .then(({ done, message }) => {
-        dispatch(GET_PASS_ACTION(done));
+      .then(({ success }) => {
+        dispatch(GET_PASS_ACTION(success));
       })
       .catch((er) => console.log(er));
   };
@@ -211,8 +211,8 @@ export const resetPassAction = () => {
   };
   return (dispatch) => {
     request(resetUrl, options)
-      .then(({ done }) => {
-        dispatch(RESET_PASS_ACTION(done));
+      .then(({ success }) => {
+        dispatch(RESET_PASS_ACTION(success));
       })
       .catch((er) => console.log(er));
   };

@@ -4,8 +4,7 @@ export function PageNotFound() {
   return (
     <div className={styles.mainbox}>
       <div>
-        <span>404</span>
-        <img src="../../assets/images/7yq5on.jpg" />
+        <p className="text text_type_digits-large">PAGE NOT FOUND</p>
       </div>
     </div>
   );

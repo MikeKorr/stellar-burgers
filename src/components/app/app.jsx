@@ -69,12 +69,12 @@ function App() {
         <Route path="*">
           <PageNotFound />
         </Route>
-        {/* <Route> {isModalOpen && (
+      </Switch>
+      {isModalOpen && (
         <Modal setIsModalOpen={setIsModalOpen}>
           {itemModal === "Order" ? <OrderDetails /> : <IngredientsDetails />}
         </Modal>
-      )}</Route> */}
-      </Switch>
+      )}
     </div>
   );
 }

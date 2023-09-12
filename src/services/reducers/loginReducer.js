@@ -1,8 +1,8 @@
-import { getCookie } from "../../utils/cookies";
 import { USER_LOG, USER_LOGOUT } from "../actions/route-actions";
 
 const userState = {
-  login: getCookie("access") ? true : false,
+  login: null,
+  logout: false,
   user: {},
 };
 
@@ -11,14 +11,16 @@ export const loginReducer = (state = userState, action) => {
     case USER_LOG: {
       return {
         ...state,
-        login: true,
+        login: action.payload.success,
+        logout: !action.payload.success,
         user: action.payload.user,
       };
     }
     case USER_LOGOUT: {
       return {
         ...state,
-        login: false,
+        login: !action.payload.success,
+        logout: action.payload.success,
         user: action.payload.user,
       };
     }

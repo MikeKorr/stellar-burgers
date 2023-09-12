@@ -10,7 +10,7 @@
   margin: 0;
   display: flex;
   align-items: center;
-
+  color: var(--text-inactive-color);
   text-decoration: none;
 }
 
@@ -22,15 +22,16 @@
   flex: 2 1 auto;
 }
 
-.text {
-  color: var(--colors-interface-accent);
-}
-
-.active-text {
-  color: white;
-}
-
 .box {
   display: flex;
   flex: 4 2 auto;
+}
+
+.activelink {
+  color: var(--text-primary-color);
+  margin: 0;
+  display: flex;
+  align-items: center;
+
+  text-decoration: none;
 }

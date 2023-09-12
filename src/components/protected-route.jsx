@@ -10,7 +10,7 @@ import { useSelector } from "react-redux";
 //   return useContext(AuthContext);
 // }
 
-export const ProtectedRoute = ({ item, path }) => {
+export function ProtectedRoute({ children }) {
   // let { getUser, ...auth } = useAuth();
   // const [isUserLoaded, setUserLoaded] = useState(false);
 
@@ -30,12 +30,9 @@ export const ProtectedRoute = ({ item, path }) => {
   // return auth.user ? element : <Redirect to="/login" replace />;
   const login = useSelector((state) => state.loginReducer.login);
 
-  if (!login) {
-    return (
-      <Route path={path}>
-        <Redirect to="/login" />
-      </Route>
-    );
-  }
-  return <Route path={path} component={item} />;
-};
+  return (
+    <Route render={() => (login ? children : <Redirect to="/login" />)}>
+      {}
+    </Route>
+  );
+}

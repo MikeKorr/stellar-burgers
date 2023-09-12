@@ -1,7 +1,7 @@
 import { USER_REG } from "../actions/route-actions";
 
 const regState = {
-  done: false,
+  success: false,
   user: {},
 };
 
@@ -10,7 +10,7 @@ export const registrationReducer = (state = regState, action) => {
     case USER_REG: {
       return {
         ...state,
-        done: action.payload.done,
+        success: action.payload.success,
         user: action.payload.user,
       };
     }

@@ -11,7 +11,7 @@ import { useState } from "react";
 
 export function RegistrationPage() {
   const dispatch = useDispatch();
-  const login = useSelector((state) => state.loginReducer.login);
+  const login = useSelector((state) => state.registrationReducer.success);
   const registrationForm = (event) => {
     event.preventDefault();
     const user = {

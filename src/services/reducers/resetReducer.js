@@ -1,12 +1,12 @@
-import { GET_PASS } from "../actions/route-actions";
+import { RESET_PASS } from "../actions/route-actions";
 
-const forgotpassState = {
+const resetState = {
   success: false,
 };
 
-export const forgotpassReducer = (state = forgotpassState, action) => {
+export const resetReducer = (state = resetState, action) => {
   switch (action.type) {
-    case GET_PASS: {
+    case RESET_PASS: {
       return {
         ...state,
         success: action.payload,

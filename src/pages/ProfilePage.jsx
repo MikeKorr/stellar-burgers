@@ -5,27 +5,23 @@ import {
   Input,
   Button,
   PasswordInput,
+  EditIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { patchProfileInfo } from "../services/actions/route-actions";
 import { useState } from "react";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink, Redirect } from "react-router-dom";
 import { userLogout } from "../services/actions/route-actions";
 
 export const ProfilePage = () => {
   const dispatch = useDispatch();
   const chagngedEmail = useSelector((state) => state.profileReducer.user.email);
   const chagngedName = useSelector((state) => state.profileReducer.user.name);
-
+  const login = useSelector((state) => state.loginReducer.login);
   const [value, setValue] = useState({
     name: chagngedName,
     email: chagngedEmail,
     password: "",
   });
-
-  const watcher =
-    value.name !== chagngedName ||
-    value.email !== chagngedEmail ||
-    value.password.length > 0;
 
   useEffect(() => {
     setValue({
@@ -35,7 +31,7 @@ export const ProfilePage = () => {
     });
   }, [chagngedEmail, chagngedName]);
 
-  const saveUserInfo = (event) => {
+  const saveProfileInfo = (event) => {
     event.preventDefault();
     const { name, email, password } = value;
     dispatch(patchProfileInfo(name, email, password));
@@ -60,24 +56,49 @@ export const ProfilePage = () => {
 
   return (
     <div>
-      <div>
+      <div className={styles.profilebox}>
         <div>
-          <NavLink to={{ pathname: "/profile" }} exact={true}>
-            Профиль
-          </NavLink>
-          <NavLink to={{ pathname: "/profile/orders" }}>
-            История заказов
-          </NavLink>
-          <NavLink to={{ pathname: "/login" }}>Выход</NavLink>
+          <div className={styles.navbox + " mr-15"}>
+            <NavLink
+              activeClassName={styles.active}
+              className={
+                styles.profilelink +
+                " text text_type_digits-default text_color_inactive"
+              }
+              to={{ pathname: "/profile" }}
+              exact={true}
+            >
+              Профиль
+            </NavLink>
+            <NavLink
+              activeClassName={styles.active}
+              className={
+                styles.profilelink +
+                " text text_type_digits-default text_color_inactive"
+              }
+              to={{ pathname: "/profile/orders" }}
+            >
+              История заказов
+            </NavLink>
+            <NavLink
+              to={{ pathname: "/login" }}
+              activeClassName={styles.active}
+              className={
+                styles.profilelink +
+                " text text_type_digits-default text_color_inactive"
+              }
+            >
+              <span onClick={logoutProfile}>Выход</span>
+            </NavLink>
+            <div className={styles.psinfo + " mt-20"}>
+              <span className="text text_type_main-default text_color_inactive">
+                В этом разделе вы можете изменить свои персональные данные
+              </span>
+            </div>
+          </div>
         </div>
-      </div>
-      <div className={styles.mainbox}>
-        <form className={styles.logform} onSubmit={saveUserInfo}>
-          <span
-            className={styles.logtitle + " text text_type_main-medium mb-6"}
-          >
-            Регистрация
-          </span>
+
+        <form className={styles.logform} onSubmit={saveProfileInfo}>
           <Input
             extraClass="mb-6"
             placeholder="Имя"
@@ -85,16 +106,18 @@ export const ProfilePage = () => {
               setValue({ ...value, name: event.target.value })
             }
             value={value.name}
-            errorText={"Допущена ошибка"}
+            name="name"
+            icon={"EditIcon"}
           />
           <Input
             extraClass="mb-6"
-            placeholder="E-mail"
+            placeholder="Логин"
             onChange={(event) =>
               setValue({ ...value, email: event.target.value })
             }
             value={value.email}
-            errorText={"Допущена ошибка"}
+            name="email"
+            icon={"EditIcon"}
           />
           <PasswordInput
             extraClass="mb-6"
@@ -102,22 +125,17 @@ export const ProfilePage = () => {
               setValue({ ...value, password: event.target.value })
             }
             value={value.password}
-            errorText={"Допущена ошибка"}
+            name="password"
+            icon={"EditIcon"}
           />
-          <Button extraClass="mb-20 ">Зарегестрироваться</Button>
-          <div>
-            <span className="text text_type_main-default text_color_inactive">
-              Уже зарегестрированы?
-            </span>
-            <Link
-              to="/login"
-              className={
-                styles.noline +
-                " text text_type_main-default text_color_inactive ml-2 mb-4"
-              }
-            >
-              Войти
-            </Link>
+
+          <div className={styles.profilebtn}>
+            <div className="mr-5">
+              <Button onClick={removeInfo}>Отмена</Button>
+            </div>
+            <div>
+              <Button>Сохранить</Button>
+            </div>
           </div>
         </form>
       </div>

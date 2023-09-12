@@ -1,7 +1,7 @@
 import styles from "./Pages.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { getForgotPass } from "../services/actions/route-actions";
-import { useEffect, useState, useCallback } from "react";
+import { useState, useCallback } from "react";
 import { Link, useHistory } from "react-router-dom";
 import {
   Input,
@@ -10,16 +10,24 @@ import {
 
 export function ForgotPass() {
   const dispatch = useDispatch();
+  const success = useSelector((state) => state.forgotpassReducer.success);
   const history = useHistory();
-  const [value, setValue] = useState();
+
+  const [value, setValue] = useState("");
 
   const handlePass = useCallback(
     (event) => {
       event.preventDefault();
       dispatch(getForgotPass());
+      success
+        ? history.push("/reset-password")
+        : history.push("/forgot-password");
     },
-    [dispatch, history]
+    [dispatch, history, success]
   );
+
+  //Есть баг с необходимость нажать на кнопку восстановть 2 раза, чтобы перейти на сброс пароля.
+
   return (
     <div className={styles.mainbox}>
       <form className={styles.logform} onSubmit={handlePass}>
@@ -31,7 +39,7 @@ export function ForgotPass() {
           extraClass="mb-6"
           placeholder="Укажите E-mail"
           value={value}
-          errorText={"Допущена ошибка"}
+          name="email"
         />
 
         <Button extraClass="mb-20 ">Восстановить</Button>

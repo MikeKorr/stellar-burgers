@@ -1,7 +1,7 @@
 import { GET_PROFILE_INFO, PATCH_PROFILE_INFO } from "../actions/route-actions";
 
 const profileState = {
-  done: false,
+  success: false,
   user: {
     email: "",
     name: "",
@@ -13,14 +13,14 @@ export const profileReducer = (state = profileState, action) => {
     case GET_PROFILE_INFO: {
       return {
         ...state,
-        done: action.payload.done,
+        success: action.payload.success,
         user: action.payload.user,
       };
     }
     case PATCH_PROFILE_INFO: {
       return {
         ...state,
-        done: action.payload.done,
+        success: action.payload.success,
         user: action.payload.user,
       };
     }

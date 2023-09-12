@@ -13,20 +13,16 @@ import { useSelector } from "react-redux";
 export function LoginPage() {
   const dispatch = useDispatch();
   const login = useSelector((state) => state.loginReducer.login);
-  const [pass, setPass] = useState("");
+  const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const submitForm = (event) => {
     event.preventDefault();
     const user = {
-      pass,
+      password,
       email,
     };
     dispatch(userLogin(user));
   };
-
-  if (login) {
-    return <Redirect to={"/profile"} />;
-  }
 
   return (
     <div className={styles.mainbox}>
@@ -42,10 +38,11 @@ export function LoginPage() {
         />
         <PasswordInput
           extraClass="mb-6"
-          onChange={(event) => setPass(event.target.value)}
-          value={pass}
+          onChange={(event) => setPassword(event.target.value)}
+          value={password}
         />
         <Button extraClass="mb-20 ">Войти</Button>
+        {login ? <Redirect to="/profile" /> : <Redirect to="/login" />}
       </form>
       <div className={styles.logpass}>
         <div>
