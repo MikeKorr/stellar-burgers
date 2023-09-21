@@ -8,22 +8,29 @@ import { OrderDetails } from "../OrderDetails/OrderDetails";
 import { useDispatch, useSelector } from "react-redux";
 import { getIngElements } from "../../services/actions";
 import { ProfilePage } from "../../pages/ProfilePage";
-import { Switch, Route, useHistory, useLocation } from "react-router-dom";
+import {
+  Switch, //устанавливается 5 версия, невозможно поставить 6 и использовать Routes, приходится использовать switch
+  Route,
+  useLocation,
+  useHistory,
+} from "react-router-dom";
 import { ProtectedRoute } from "../protected-route";
 import { LoginPage } from "../../pages/LoginPage";
 import { RegistrationPage } from "../../pages/RegistrationPage";
 import { ForgotPass } from "../../pages/ForgotPass";
 import { ResetPassPage } from "../../pages/ResetPassPage";
-import { IngredientList } from "../Ingredient/Ingredient";
 import { IngPage } from "../../pages/IngPage";
 import { PageNotFound } from "../../pages/404page";
+import { USER_LOG_ACTION } from "../../services/actions/route-actions";
+import { FC } from "react";
 
-function App() {
+const App: FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const dispatch = useDispatch();
   const [itemModal, setItemModal] = useState("");
+  const history = useHistory();
 
-  function changeModal(mod) {
+  function changeModal(mod: string) {
     setItemModal(mod);
     if (isModalOpen) {
       setIsModalOpen(false);
@@ -32,19 +39,44 @@ function App() {
     }
   }
 
+  const closePopup = () => {
+    setIsModalOpen(false);
+    history.push("/");
+  };
+
   useEffect(() => {
     dispatch(getIngElements());
+    const loginData = JSON.parse(sessionStorage.getItem("login-data") || "{}");
+    if (loginData) dispatch(USER_LOG_ACTION(loginData));
   }, [dispatch]);
-  // const login = useSelector((state) => state.profileReducer.login) ||
-  //   JSON.parse(sessionStorage.getItem("login"));
-  const history = useHistory();
-  const location = useLocation();
+
+  type TLocation = {
+    background: TLocation;
+    hash: string;
+    key: string;
+    pathname: string;
+    search: string;
+    from: string;
+    state: {
+      background?: {
+        pathname: string;
+        search: string;
+        hash: string;
+        key: string;
+      };
+    };
+  };
+
+  const location = useLocation<TLocation>();
   const background = location.state && location.state.background;
 
   return (
     <div className={styles.app}>
       <AppHeader />
       <Switch location={background || location}>
+        <Route path="/" exact={true}>
+          <AppMain setIsModalOpen={setIsModalOpen} changeModal={changeModal} />
+        </Route>
         <Route path="/login" exact={true}>
           <LoginPage />
         </Route>
@@ -57,26 +89,49 @@ function App() {
         <Route path="/reset-password" exact={true}>
           <ResetPassPage />
         </Route>
-        <ProtectedRoute exact={true} path="/profile">
+        <ProtectedRoute path={"/profile"}>
           <ProfilePage />
         </ProtectedRoute>
-        <Route path="/" exact={true}>
-          <AppMain setIsModalOpen={setIsModalOpen} changeModal={changeModal} />
-        </Route>
-        <Route path="/ingredients/:id" exact={true}>
-          <IngPage />
+        <Route path="/ingredients/:id">
+          {isModalOpen && (
+            <Modal closePopup={closePopup}>
+              <IngredientsDetails />
+            </Modal>
+          )}
         </Route>
         <Route path="*">
           <PageNotFound />
         </Route>
+        {/* <Route path="/ingredients/:id">
+          {background && (
+            <>
+              {isModalOpen && (
+                <Modal setIsModalOpen={setIsModalOpen}>
+                  <IngredientsDetails />
+                </Modal>
+              )}
+            </>
+          )}
+        </Route> */}
       </Switch>
-      {isModalOpen && (
+      {/* {isModalOpen && (
         <Modal setIsModalOpen={setIsModalOpen}>
           {itemModal === "Order" ? <OrderDetails /> : <IngredientsDetails />}
         </Modal>
-      )}
+      )} */}
+      {/* {background && (
+        <Switch>
+          <Route path="/ingredients/:id">
+            {isModalOpen && (
+              <Modal closePopup={closePopup}>
+                <IngredientsDetails />
+              </Modal>
+            )}
+          </Route>
+        </Switch>
+      )} */}
     </div>
   );
-}
+};
 
 export default App;

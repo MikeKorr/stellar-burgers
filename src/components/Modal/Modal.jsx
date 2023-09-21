@@ -7,7 +7,7 @@ import PropTypes from "prop-types";
 
 const modalRoot = document.getElementById("react-modal");
 
-export default function Modal({ children, setIsModalOpen }) {
+export default function Modal({ children, closePopup }) {
   useEffect(() => {
     function onEsc(evt) {
       if (evt.code === "Escape") {
@@ -19,7 +19,7 @@ export default function Modal({ children, setIsModalOpen }) {
   }, []);
 
   const handleClose = () => {
-    setIsModalOpen(false);
+    closePopup();
   };
 
   return ReactDOM.createPortal(
@@ -41,6 +41,5 @@ export default function Modal({ children, setIsModalOpen }) {
 }
 
 Modal.propTypes = {
-  setIsModalOpen: PropTypes.func.isRequired,
   children: PropTypes.element.isRequired,
 };

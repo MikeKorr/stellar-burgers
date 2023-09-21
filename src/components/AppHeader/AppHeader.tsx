@@ -1,4 +1,4 @@
-import Header from "./Header/Header.jsx";
+import { Header } from "./Header/Header";
 import styles from "./AppHeader.module.css";
 
 export default function AppHeader() {

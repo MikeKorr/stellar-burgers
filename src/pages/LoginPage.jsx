@@ -40,8 +40,11 @@ export function LoginPage() {
           extraClass="mb-6"
           onChange={(event) => setPassword(event.target.value)}
           value={password}
+          // type="password"
         />
-        <Button extraClass="mb-20 ">Войти</Button>
+        <Button htmlType="submit" extraClass="mb-20 ">
+          Войти
+        </Button>
         {login ? <Redirect to="/profile" /> : <Redirect to="/login" />}
       </form>
       <div className={styles.logpass}>
