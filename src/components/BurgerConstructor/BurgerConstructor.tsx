@@ -13,21 +13,35 @@ import { useRef } from "react";
 import { OrderButton } from "../OrderButton/OrderButton";
 import { getOrder } from "../../services/actions";
 import { useMemo } from "react";
-import PropTypes from "prop-types";
+import PropTypes, { number } from "prop-types";
 import { ingItem } from "../../utils/prop-types";
 import { Redirect } from "react-router-dom";
+import { FC } from "react";
+import { TIngredient } from "../../services/actions";
 
-export default function BurgerConstructor({ changeModal }) {
-  const login = useSelector((state) => state.loginReducer.login);
+type TBurgerConstructor = {
+  changeModal: () => void;
+};
+
+type TIng = {
+  id: string;
+  item: TIngredient;
+  type: string;
+};
+
+export const BurgerConstructor: FC<TBurgerConstructor> = ({ changeModal }) => {
+  const login = useSelector((state: any) => state.loginReducer.login);
   const dispatch = useDispatch();
-  const mainCollect = useSelector((state) => state.constructorReducer.mains);
-  const bunCollect = useSelector((state) => state.constructorReducer.buns);
+  const mainCollect = useSelector(
+    (state: any) => state.constructorReducer.mains
+  );
+  const bunCollect = useSelector((state: any) => state.constructorReducer.buns);
   const [, dropIng] = useDrop(() => ({
     accept: "ingredient",
-    drop: (item) => newCardElement(item.item),
+    drop: (item: TIng) => newCardElement(item.item),
   }));
 
-  const newCardElement = (element) => {
+  const newCardElement = (element: TIngredient) => {
     element = { ...element, id: nanoid() };
     if (element.type === "bun") {
       dispatch(SET_BUN_ACTION(element));
@@ -38,25 +52,25 @@ export default function BurgerConstructor({ changeModal }) {
   };
 
   const ordId = useMemo(() => {
-    return bunCollect.map((el) => el._id);
+    return bunCollect.map((el: TIngredient) => el._id);
   }, [bunCollect]);
 
   const requestId = () => {
     dispatch(getOrder(ordId));
   };
 
-  const delElem = (item) => {
+  const delElem = (item: TIngredient) => {
     dispatch(DEL_ING_ACTION(item));
   };
 
   const [, dropConst] = useDrop(() => ({
     accept: "elem",
-    drop: (item) => DND_ING_ACTION(item.item),
+    drop: (item: TIng) => newCardElement(item.item),
   }));
   return (
     <div ref={dropIng}>
       <div className={styles.const + " mb-4 mt-4"}>
-        {bunCollect.map((item) => {
+        {bunCollect.map((item: TIngredient) => {
           if (item.type === "bun")
             return (
               <div className={styles.ing} key={item.id}>
@@ -75,7 +89,7 @@ export default function BurgerConstructor({ changeModal }) {
         })}
       </div>
       <div className={styles.main + " custom-scroll"} ref={dropConst}>
-        {mainCollect.map((item, index) => {
+        {mainCollect.map((item: TIngredient, index: number) => {
           if (item.type !== "bun") {
             return (
               <BurgerConstElement
@@ -91,7 +105,7 @@ export default function BurgerConstructor({ changeModal }) {
       </div>
       <div className={styles.ing}>
         <div className={styles.const + " mb-4 mt-4"}>
-          {bunCollect.map((item) => {
+          {bunCollect.map((item: TIngredient) => {
             if (item.type === "bun")
               return (
                 <div className={styles.ing} key={item.id}>
@@ -114,7 +128,7 @@ export default function BurgerConstructor({ changeModal }) {
       <div
         className={styles.order}
         onClick={() => {
-          changeModal("Order");
+          // changeModal("Order");
           requestId();
           if (!login) {
             return <Redirect to={"/login"} />;
@@ -125,18 +139,30 @@ export default function BurgerConstructor({ changeModal }) {
       </div>
     </div>
   );
-}
+};
 
-function BurgerConstElement({ elem, delElem, id, index }) {
+type TBurgerConstElement = {
+  elem: TIngredient;
+  delElem: (elem: TIngredient) => void;
+  id: string | undefined;
+  index: number;
+};
+
+const BurgerConstElement: FC<TBurgerConstElement> = ({
+  elem,
+  delElem,
+  id,
+  index,
+}) => {
   const ref = useRef(null);
   const dispatch = useDispatch();
-  const changeCardPosition = (drag, drop) => {
+  const changeCardPosition = (drag: number, drop: number) => {
     dispatch(DND_ING_ACTION(drag, drop));
   };
   const [, drop] = useDrop({
     accept: "elem",
 
-    hover(item, monitor) {
+    hover(item: { index: number }, monitor) {
       if (!ref.current) {
         return;
       }
@@ -145,11 +171,12 @@ function BurgerConstElement({ elem, delElem, id, index }) {
       if (dragItemIndex === hoverItemIndex) {
         return;
       }
-      const hoverBoundingRect = ref.current?.getBoundingClientRect();
+      const refCurent: HTMLElement = ref.current;
+      const hoverBoundingRect = refCurent?.getBoundingClientRect();
       const hoverMiddleY =
         (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
       const clientOffset = monitor.getClientOffset();
-      const hoverClientY = clientOffset.y - hoverBoundingRect.top;
+      const hoverClientY = clientOffset!.y - hoverBoundingRect.top;
       if (dragItemIndex < hoverItemIndex && hoverClientY < hoverMiddleY) {
         return;
       }
@@ -181,15 +208,15 @@ function BurgerConstElement({ elem, delElem, id, index }) {
       />
     </div>
   );
-}
-
-BurgerConstElement.propTypes = {
-  elem: ingItem.isRequired,
-  delElem: PropTypes.func.isRequired,
-  id: PropTypes.string.isRequired,
-  index: PropTypes.number.isRequired,
 };
 
-BurgerConstructor.propTypes = {
-  changeModal: PropTypes.func.isRequired,
-};
+// BurgerConstElement.propTypes = {
+//   elem: ingItem.isRequired,
+//   delElem: PropTypes.func.isRequired,
+//   id: PropTypes.string.isRequired,
+//   index: PropTypes.number.isRequired,
+// };
+
+// BurgerConstructor.propTypes = {
+//   changeModal: PropTypes.func.isRequired,
+// };

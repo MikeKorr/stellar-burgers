@@ -10,7 +10,7 @@ import {
 
 export function ForgotPass() {
   const dispatch = useDispatch();
-  const success = useSelector((state) => state.forgotpassReducer.success);
+  const success = useSelector((state: any) => state.forgotpassReducer.success);
 
   const [value, setValue] = useState("");
 

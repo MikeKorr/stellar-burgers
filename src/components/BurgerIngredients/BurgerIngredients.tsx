@@ -4,25 +4,34 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useRef } from "react";
 import { SET_TAB_ACTION, SCROLL_ING_ACTION } from "../../services/actions";
 import { IngredientList } from "../Ingredient/Ingredient";
+import { FC } from "react";
 
-export default function BurgerIngredients({ setIsModalOpen, changeModal }) {
+type TBurgerIngredients = {
+  setIsModalOpen: () => void;
+  changeModal: () => void;
+};
+
+export const BurgerIngredients: FC<TBurgerIngredients> = ({
+  setIsModalOpen,
+  changeModal,
+}) => {
   const dispatch = useDispatch();
-  const scroll = useSelector((state) => state.scrollReducer.scroll);
+  const scroll = useSelector((state: any) => state.scrollReducer.scroll);
 
-  const refBun = useRef();
-  const refSauce = useRef();
-  const refMain = useRef();
-  const refScroll = useRef();
+  const refBun = useRef<HTMLParagraphElement>(null);
+  const refSauce = useRef<HTMLParagraphElement>(null);
+  const refMain = useRef<HTMLParagraphElement>(null);
+  const refScroll = useRef<HTMLParagraphElement>(null);
 
   useEffect(() => {
     if (scroll === "bun") {
-      refBun.current.scrollIntoView({ behavior: "smooth" });
+      refBun.current?.scrollIntoView({ behavior: "smooth" });
     }
     if (scroll === "sauce") {
-      refSauce.current.scrollIntoView({ behavior: "smooth" });
+      refSauce.current?.scrollIntoView({ behavior: "smooth" });
     }
     if (scroll === "main") {
-      refMain.current.scrollIntoView({ behavior: "smooth" });
+      refMain.current?.scrollIntoView({ behavior: "smooth" });
     }
   }, [scroll]);
 
@@ -48,7 +57,7 @@ export default function BurgerIngredients({ setIsModalOpen, changeModal }) {
       }
     );
     currents.forEach((h) => {
-      return watcher.observe(h);
+      return watcher.observe(h!);
     });
   }, [dispatch]);
 
@@ -57,9 +66,9 @@ export default function BurgerIngredients({ setIsModalOpen, changeModal }) {
       <span className=" text text_type_main-large">Соберите бургер</span>
       <div className="mt-5">
         <BurgerComponents
-          refBun={refBun}
-          refSauce={refSauce}
-          refMain={refMain}
+        // refBun={refBun}
+        // refSauce={refSauce}
+        // refMain={refMain}
         />
         <div className={styles.ingBox + " custom-scroll"} ref={refScroll}>
           <div className="mt-10">
@@ -70,7 +79,7 @@ export default function BurgerIngredients({ setIsModalOpen, changeModal }) {
               type="bun"
               ingType={"Булки"}
               setIsModalOpen={setIsModalOpen}
-              changeModal={changeModal}
+              // changeModal={changeModal}
             />
           </div>
           <div className="mt-10">
@@ -81,7 +90,7 @@ export default function BurgerIngredients({ setIsModalOpen, changeModal }) {
               type="sauce"
               ingType={"Соусы"}
               setIsModalOpen={setIsModalOpen}
-              changeModal={changeModal}
+              // changeModal={changeModal}
             />
           </div>
           <div className="mt-10">
@@ -92,19 +101,19 @@ export default function BurgerIngredients({ setIsModalOpen, changeModal }) {
               type="main"
               ingType={"Начинка"}
               setIsModalOpen={setIsModalOpen}
-              changeModal={changeModal}
+              // changeModal={changeModal}
             />
           </div>
         </div>
       </div>
     </div>
   );
-}
+};
 
 function BurgerComponents() {
   const dispatch = useDispatch();
-  const current = useSelector((state) => state.scrollReducer.current);
-  const setCurrent = (value) => {
+  const current = useSelector((state: any) => state.scrollReducer.current);
+  const setCurrent = (value: string) => {
     dispatch(SET_TAB_ACTION(value));
     dispatch(SCROLL_ING_ACTION(value));
   };

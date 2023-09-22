@@ -7,21 +7,25 @@ import {
 import { Link, Redirect } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { resetPassAction } from "../services/actions/route-actions";
-import { useEffect, useState } from "react";
+import { useEffect, useState, FormEventHandler, EffectCallback } from "react";
 import { GET_PASS_ACTION } from "../services/actions/route-actions";
 
 export function ResetPassPage() {
   const dispatch = useDispatch();
-  const successForgot = useSelector((state) => state.forgotpassReducer.success);
-  const success = useSelector((state) => state.resetReducer.success);
-  const resetPass = (event) => {
+  const successForgot = useSelector(
+    (state: any) => state.forgotpassReducer.success
+  );
+  const success = useSelector((state: any) => state.resetReducer.success);
+  const resetPass: FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
     dispatch(resetPassAction());
   };
   const [value, setValue] = useState({ password: "", token: "" });
-  console.log("рпрпрпрп");
-  useEffect(() => {
-    return () => dispatch(GET_PASS_ACTION(false));
+
+  useEffect((): any => {
+    return () => {
+      dispatch(GET_PASS_ACTION(false));
+    };
   }, []);
 
   if (!success && !successForgot) {
@@ -43,7 +47,6 @@ export function ResetPassPage() {
           }
           placeholder="Введите новый пароль"
           value={value.password}
-          type="password"
         />
         <Input
           extraClass="mb-6"

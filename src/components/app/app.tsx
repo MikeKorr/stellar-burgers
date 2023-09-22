@@ -1,8 +1,8 @@
 import styles from "./app.module.css";
 import AppHeader from "../AppHeader/AppHeader";
-import AppMain from "../AppMain/AppMain";
+import { AppMain } from "../AppMain/AppMain";
 import { useEffect, useState } from "react";
-import Modal from "../Modal/Modal";
+import { Modal } from "../Modal/Modal";
 import { IngredientsDetails } from "../IngredientsDetails/IngredientsDetails";
 import { OrderDetails } from "../OrderDetails/OrderDetails";
 import { useDispatch, useSelector } from "react-redux";
@@ -23,6 +23,7 @@ import { IngPage } from "../../pages/IngPage";
 import { PageNotFound } from "../../pages/404page";
 import { USER_LOG_ACTION } from "../../services/actions/route-actions";
 import { FC } from "react";
+import { getCookie } from "../../utils/cookies";
 
 const App: FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -30,14 +31,14 @@ const App: FC = () => {
   const [itemModal, setItemModal] = useState("");
   const history = useHistory();
 
-  function changeModal(mod: string) {
-    setItemModal(mod);
-    if (isModalOpen) {
-      setIsModalOpen(false);
-    } else {
-      setIsModalOpen(true);
-    }
-  }
+  // function changeModal(mod: string) {
+  //   setItemModal(mod);
+  //   if (isModalOpen) {
+  //     setIsModalOpen(false);
+  //   } else {
+  //     setIsModalOpen(true);
+  //   }
+  // }
 
   const closePopup = () => {
     setIsModalOpen(false);
@@ -47,7 +48,7 @@ const App: FC = () => {
   useEffect(() => {
     dispatch(getIngElements());
     const loginData = JSON.parse(sessionStorage.getItem("login-data") || "{}");
-    if (loginData) dispatch(USER_LOG_ACTION(loginData));
+    if (loginData.success) dispatch(USER_LOG_ACTION(loginData.success));
   }, [dispatch]);
 
   type TLocation = {
@@ -75,7 +76,17 @@ const App: FC = () => {
       <AppHeader />
       <Switch location={background || location}>
         <Route path="/" exact={true}>
-          <AppMain setIsModalOpen={setIsModalOpen} changeModal={changeModal} />
+          <AppMain setIsModalOpen={setIsModalOpen} />
+        </Route>
+        {/* <Route path="/ingredients/:id" exact={true}>
+          <IngPage />
+        </Route> */}
+        <Route path="/ingredients/:id">
+          {isModalOpen && (
+            <Modal closePopup={closePopup}>
+              <IngredientsDetails />
+            </Modal>
+          )}
         </Route>
         <Route path="/login" exact={true}>
           <LoginPage />
@@ -92,35 +103,13 @@ const App: FC = () => {
         <ProtectedRoute path={"/profile"}>
           <ProfilePage />
         </ProtectedRoute>
-        <Route path="/ingredients/:id">
-          {isModalOpen && (
-            <Modal closePopup={closePopup}>
-              <IngredientsDetails />
-            </Modal>
-          )}
-        </Route>
         <Route path="*">
           <PageNotFound />
         </Route>
-        {/* <Route path="/ingredients/:id">
-          {background && (
-            <>
-              {isModalOpen && (
-                <Modal setIsModalOpen={setIsModalOpen}>
-                  <IngredientsDetails />
-                </Modal>
-              )}
-            </>
-          )}
-        </Route> */}
       </Switch>
-      {/* {isModalOpen && (
-        <Modal setIsModalOpen={setIsModalOpen}>
-          {itemModal === "Order" ? <OrderDetails /> : <IngredientsDetails />}
-        </Modal>
-      )} */}
+
       {/* {background && (
-        <Switch>
+        <>
           <Route path="/ingredients/:id">
             {isModalOpen && (
               <Modal closePopup={closePopup}>
@@ -128,7 +117,13 @@ const App: FC = () => {
               </Modal>
             )}
           </Route>
-        </Switch>
+        </>
+      )} */}
+
+      {/* {isModalOpen && (
+        <Modal setIsModalOpen={setIsModalOpen}>
+          {itemModal === "Order" ? <OrderDetails /> : <IngredientsDetails />}
+        </Modal>
       )} */}
     </div>
   );

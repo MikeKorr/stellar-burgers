@@ -1,5 +1,5 @@
 import { baseUrl, request } from "../../utils/api";
-import { getCookie, setCookie } from "../../utils/cookies";
+import { delCookie, getCookie, setCookie } from "../../utils/cookies";
 import { Dispatch } from "@reduxjs/toolkit";
 import {
   ISET_INGREDIENTS_ACTION,
@@ -16,7 +16,6 @@ import {
   IGET_ORDER_REQUEST_ACTION,
   IGET_ORDER_DONE_ACTION,
 } from ".";
-
 export const GET_PROFILE_INFO = "GET_PROFILE_INFO";
 export const PATCH_PROFILE_INFO = "PATCH_PROFILE_INFO";
 
@@ -147,15 +146,15 @@ export const userLogin = (user: TLogin) => {
       password,
     }),
   };
-  return (dispatch: any) => {
+  return (dispatch: Dispatch<IUSER_LOG_ACTION>) => {
     request(loginUrl, options)
       .then((data) => {
         const { success, refreshToken, accessToken } = data;
         if (success) {
-          sessionStorage.setItem("login-data", JSON.stringify(data));
+          dispatch(USER_LOG_ACTION(success));
           setCookie("access", accessToken.split("Bearer ")[1]);
           setCookie("refresh", refreshToken);
-          dispatch(USER_LOG_ACTION(data));
+          sessionStorage.setItem("login-data", JSON.stringify(data));
         }
       })
       .catch((er) => console.log(er));
@@ -173,13 +172,15 @@ export const userLogout = () => {
       token: getCookie("refresh"),
     }),
   };
-  return (dispatch: any) => {
+  return (dispatch: Dispatch<IUSER_LOGOUT_ACTION>) => {
     request(logoutUrl, options)
       .then((data) => {
         const { success } = data;
         if (success) {
+          dispatch(USER_LOGOUT_ACTION(success));
           sessionStorage.removeItem("login-data");
-          dispatch(USER_LOGOUT_ACTION(data));
+          delCookie("access");
+          delCookie("refresh");
         }
       })
       .catch((er) => console.log(er));

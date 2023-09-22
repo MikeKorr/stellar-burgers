@@ -8,11 +8,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, Redirect } from "react-router-dom";
 import { userReg } from "../services/actions/route-actions";
 import { useState } from "react";
+import { FormEventHandler } from "react";
 
 export function RegistrationPage() {
   const dispatch = useDispatch();
-  const login = useSelector((state) => state.registrationReducer.success);
-  const registrationForm = (event) => {
+  const login = useSelector((state: any) => state.registrationReducer.success);
+  const registrationForm: FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
     const user = {
       name: value.name,
@@ -57,7 +58,9 @@ export function RegistrationPage() {
           }
           value={value.password}
         />
-        <Button extraClass="mb-20 ">Зарегестрироваться</Button>
+        <Button htmlType="submit" extraClass="mb-20 ">
+          Зарегестрироваться
+        </Button>
         {login ? <Redirect to="/profile" /> : <Redirect to="/register" />}
         <div>
           <span className="text text_type_main-default text_color_inactive">

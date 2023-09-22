@@ -9,13 +9,14 @@ import {
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useSelector } from "react-redux";
+import { FormEventHandler } from "react";
 
 export function LoginPage() {
   const dispatch = useDispatch();
-  const login = useSelector((state) => state.loginReducer.login);
+  const login = useSelector((state: any) => state.loginReducer.login);
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
-  const submitForm = (event) => {
+  const submitForm: FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
     const user = {
       password,

@@ -18,6 +18,7 @@ export const loginReducer = (
 ): TUserState => {
   switch (action.type) {
     case USER_LOG: {
+      console.log(action.payload, "пэй");
       return {
         ...state,
         login: action.payload,

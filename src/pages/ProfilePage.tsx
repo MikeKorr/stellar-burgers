@@ -11,12 +11,18 @@ import { patchProfileInfo } from "../services/actions/route-actions";
 import { useState } from "react";
 import { NavLink, Redirect } from "react-router-dom";
 import { userLogout } from "../services/actions/route-actions";
+import { FC, FormEventHandler } from "react";
+import { delCookie } from "../utils/cookies";
 
-export const ProfilePage = () => {
+export const ProfilePage: FC = () => {
   const dispatch = useDispatch();
-  const chagngedEmail = useSelector((state) => state.profileReducer.user.email);
-  const chagngedName = useSelector((state) => state.profileReducer.user.name);
-  const login = useSelector((state) => state.loginReducer.login);
+  const chagngedEmail = useSelector(
+    (state: any) => state.profileReducer.user.email
+  );
+  const chagngedName = useSelector(
+    (state: any) => state.profileReducer.user.name
+  );
+  // const login = useSelector((state) => state.loginReducer.login);
   const [value, setValue] = useState({
     name: chagngedName,
     email: chagngedEmail,
@@ -31,7 +37,7 @@ export const ProfilePage = () => {
     });
   }, [chagngedEmail, chagngedName]);
 
-  const saveProfileInfo = (event) => {
+  const saveProfileInfo: FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
     const { name, email, password } = value;
     dispatch(patchProfileInfo(name, email, password));
@@ -131,10 +137,12 @@ export const ProfilePage = () => {
 
           <div className={styles.profilebtn}>
             <div className="mr-5">
-              <Button onClick={removeInfo}>Отмена</Button>
+              <Button htmlType="submit" onClick={removeInfo}>
+                Отмена
+              </Button>
             </div>
             <div>
-              <Button>Сохранить</Button>
+              <Button htmlType="submit">Сохранить</Button>
             </div>
           </div>
         </form>

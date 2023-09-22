@@ -1,4 +1,4 @@
-import { reqData } from "../../utils/api";
+import { request } from "../../utils/api";
 import { baseUrl } from "../../utils/api";
 import { checkResponse } from "../../utils/api";
 
@@ -199,6 +199,7 @@ export const GET_ORDER_REQUEST_ACTION = (): IGET_ORDER_REQUEST_ACTION => ({
 });
 
 export const getOrder = (id: string[]) => {
+  const orderUrl = `${baseUrl}/orders`;
   const options = {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -207,9 +208,11 @@ export const getOrder = (id: string[]) => {
     }),
   };
   return (dispatch: any) => {
-    reqData(id, options)
-      .then(({ order: { number } }) => {
-        dispatch(GET_ORDER_DONE_ACTION(number));
+    request(orderUrl, options)
+      .then(({ success, order: { number } }) => {
+        if (success) {
+          dispatch(GET_ORDER_DONE_ACTION(number));
+        }
       })
       .then(() => dispatch(CLEAR_CONSTRUCTOR_ACTION()))
       .catch((e) => console.log(e));
