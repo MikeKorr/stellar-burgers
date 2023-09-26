@@ -11,6 +11,7 @@ import { useMemo } from "react";
 import { ADD_DETAILS_ACTION } from "../../services/actions";
 import PropTypes from "prop-types";
 import { ingItem } from "../../utils/prop-types";
+import { Link, useLocation } from "react-router-dom";
 
 export function IngredientList({ type, ingType, setIsModalOpen, changeModal }) {
   const ingredients = useSelector(
@@ -59,7 +60,6 @@ function ProtoIngredient({ item, setIsModalOpen, changeModal }) {
     },
     []
   );
-
   const dispatch = useDispatch();
   const handleClick = () => {
     dispatch(ADD_DETAILS_ACTION(item));
@@ -68,23 +68,32 @@ function ProtoIngredient({ item, setIsModalOpen, changeModal }) {
   };
 
   return (
-    <div className={styles.ingredient} ref={dragRef} onClick={handleClick}>
-      <img className="ml-4 mr-4" src={item.image} />
-      {counter > 0 ? (
-        <Counter
-          id={item._id}
-          count={counter}
-          size="default"
-          extraClass="m-1"
-        />
-      ) : null}
-      <div className={styles.block + " mt-1 mb-1"}>
-        <span className="text text_type_digits-default mr-1">{item.price}</span>
-        <CurrencyIcon type="primary" />
-      </div>
-      <p className={styles.center + " text text_type_main-small"}>
-        {item.name}
-      </p>
+    <div ref={dragRef} onClick={handleClick}>
+      <Link
+        className={styles.ingredient + " text"}
+        to={{
+          pathname: `/ingredients/${item._id}`,
+        }}
+      >
+        <img className="ml-4 mr-4" src={item.image} />
+        {counter > 0 ? (
+          <Counter
+            id={item._id}
+            count={counter}
+            size="default"
+            extraClass="m-1"
+          />
+        ) : null}
+        <div className={styles.block + " mt-1 mb-1"}>
+          <span className="text text_type_digits-default mr-1">
+            {item.price}
+          </span>
+          <CurrencyIcon type="primary" />
+        </div>
+        <p className={styles.center + " text text_type_main-small"}>
+          {item.name}
+        </p>
+      </Link>
     </div>
   );
 }

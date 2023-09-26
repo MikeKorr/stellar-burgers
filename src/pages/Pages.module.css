@@ -1,0 +1,78 @@
+.mainbox {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  justify-content: center;
+}
+
+.logtitle {
+  text-align: center;
+}
+
+.logform {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.noline {
+  text-decoration: none;
+  color: rgb(45, 18, 141);
+}
+
+.logpass {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.title {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.str {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.profilebox {
+  display: flex;
+  margin: 0;
+  align-items: center;
+  height: 60vh;
+}
+
+.navbox {
+  display: flex;
+  flex-direction: column;
+  max-width: 350px;
+}
+
+.profilelink {
+  text-decoration: none;
+  margin: 10px 0 10px 0;
+}
+
+.active {
+  color: white;
+}
+
+.profilebtn {
+  display: flex;
+}
