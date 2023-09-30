@@ -1,12 +1,22 @@
-import { GET_ORDER_REQUEST, GET_ORDER_DONE, GET_ORDER_ERR } from "../actions";
+import { GET_ORDER_REQUEST, GET_ORDER_DONE } from "../actions";
+import { TUnionActions } from "../actions/route-actions";
 
-const orderState = {
+type TOrderState = {
+  id: string;
+  orderErr: boolean;
+  orderRequest: boolean;
+};
+
+const orderState: TOrderState = {
   id: "",
   orderErr: false,
   orderRequest: false,
 };
 
-export const orderReducer = (state = orderState, action) => {
+export const orderReducer = (
+  state = orderState,
+  action: TUnionActions
+): TOrderState => {
   switch (action.type) {
     case GET_ORDER_REQUEST: {
       return {
@@ -22,13 +32,7 @@ export const orderReducer = (state = orderState, action) => {
         id: action.payload,
       };
     }
-    case GET_ORDER_ERR: {
-      return {
-        ...state,
-        orderRequest: false,
-        orderErr: true,
-      };
-    }
+
     default: {
       return state;
     }

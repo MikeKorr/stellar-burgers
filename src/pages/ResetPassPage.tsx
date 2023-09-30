@@ -7,19 +7,32 @@ import {
 import { Link, Redirect } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { resetPassAction } from "../services/actions/route-actions";
-import { useState } from "react";
+import { useEffect, useState, FormEventHandler, EffectCallback } from "react";
+import { GET_PASS_ACTION } from "../services/actions/route-actions";
 
 export function ResetPassPage() {
   const dispatch = useDispatch();
-  const success = useSelector((state) => state.resetReducer.success);
-  const resetPass = (event) => {
+  const successForgot = useSelector(
+    (state: any) => state.forgotpassReducer.success
+  );
+  const success = useSelector((state: any) => state.resetReducer.success);
+  const resetPass: FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
     dispatch(resetPassAction());
   };
-  const [value, setValue] = useState({
-    password: "",
-    token: "",
-  });
+  const [value, setValue] = useState({ password: "", token: "" });
+
+  useEffect((): any => {
+    return () => {
+      dispatch(GET_PASS_ACTION(false));
+    };
+  }, []);
+
+  if (!success && !successForgot) {
+    console.log(success, "ресет");
+    return <Redirect to={"/forgot-password"} />;
+  }
+
   return (
     <div className={styles.mainbox}>
       <form className={styles.logform} onSubmit={resetPass}>
@@ -45,7 +58,9 @@ export function ResetPassPage() {
           placeholder="Введите код из письма"
         />
 
-        <Button extraClass="mb-20 ">Сохранить</Button>
+        <Button htmlType="submit" extraClass="mb-20 ">
+          Сохранить
+        </Button>
         {success ? <Redirect to="/login" /> : null}
         <div>
           <span className="text text_type_main-default text_color_inactive">

@@ -6,12 +6,23 @@ import {
   DEL_ING,
 } from "../actions";
 
-const constructorState = {
+import { TIngredient } from "../actions";
+import { TUnionActions } from "../actions/route-actions";
+
+type TConstructorState = {
+  buns: Array<TIngredient>;
+  mains: Array<TIngredient>;
+};
+
+const constructorState: TConstructorState = {
   buns: [],
   mains: [],
 };
 
-export const constructorReducer = (state = constructorState, action) => {
+export const constructorReducer = (
+  state = constructorState,
+  action: TUnionActions
+): TConstructorState => {
   switch (action.type) {
     case SET_BUN: {
       return {

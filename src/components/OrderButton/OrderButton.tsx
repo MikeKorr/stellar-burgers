@@ -5,10 +5,15 @@ import {
   Button,
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+import { TIngredient } from "../../services/actions";
 
-export function OrderButton() {
-  const main = useSelector((state) => state.constructorReducer.mains);
-  const bunCollect = useSelector((state) => state.constructorReducer.buns);
+export const OrderButton = () => {
+  const main: TIngredient[] = useSelector(
+    (state: any) => state.constructorReducer.mains
+  );
+  const bunCollect: TIngredient[] = useSelector(
+    (state: any) => state.constructorReducer.buns
+  );
   const orderPrice = useMemo(
     () =>
       main.reduce((acc, { price }) => acc + price, 0) +
@@ -27,4 +32,4 @@ export function OrderButton() {
       </Button>
     </div>
   );
-}
+};

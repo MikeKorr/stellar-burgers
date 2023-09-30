@@ -2,7 +2,9 @@ import styles from "./IngredientsDetails.module.css";
 import { useSelector } from "react-redux";
 
 export function IngredientsDetails() {
-  const ingredient = useSelector((state) => state.detailReducer.ingDetails);
+  const ingredient = useSelector(
+    (state: any) => state.detailReducer.ingDetails
+  );
 
   return (
     <div className={styles.box + " mt-30 mb-30"}>

@@ -1,11 +1,20 @@
 import { SET_TAB, SCROLL_ING } from "../actions";
+import { TUnionActions } from "../actions/route-actions";
 
-const scroll = {
+type TScroll = {
+  current: string;
+  scroll: string;
+};
+
+const scroll: TScroll = {
   current: "",
   scroll: "",
 };
 
-export const scrollReducer = (state = scroll, action) => {
+export const scrollReducer = (
+  state = scroll,
+  action: TUnionActions
+): TScroll => {
   switch (action.type) {
     case SET_TAB: {
       return {

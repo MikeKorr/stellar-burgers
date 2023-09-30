@@ -1,6 +1,13 @@
-import { GET_PROFILE_INFO, PATCH_PROFILE_INFO } from "../actions/route-actions";
+import {
+  GET_PROFILE_INFO,
+  PATCH_PROFILE_INFO,
+  TUnionActions,
+  TPayloadProfile,
+} from "../actions/route-actions";
 
-const profileState = {
+type TProfileState = TPayloadProfile;
+
+const profileState: TProfileState = {
   success: false,
   user: {
     email: "",
@@ -8,7 +15,10 @@ const profileState = {
   },
 };
 
-export const profileReducer = (state = profileState, action) => {
+export const profileReducer = (
+  state = profileState,
+  action: TUnionActions
+): TProfileState => {
   switch (action.type) {
     case GET_PROFILE_INFO: {
       return {

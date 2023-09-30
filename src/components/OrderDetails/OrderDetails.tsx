@@ -2,9 +2,7 @@ import { useSelector } from "react-redux";
 import styles from "./OrderDetails.module.css";
 
 export function OrderDetails() {
-  const order = useSelector((state) => state.orderReducer.id);
-  console.log(order, "ордер");
-
+  const order = useSelector((state: any) => state.orderReducer.id);
   return (
     <div className={styles.box + " mt-30 mb-30"}>
       <p className="text text_type_digits-large">{order}</p>

@@ -1,8 +1,8 @@
 import styles from "./Pages.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { getForgotPass } from "../services/actions/route-actions";
-import { useState, useCallback } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { useState, useCallback, useEffect } from "react";
+import { Link, Redirect } from "react-router-dom";
 import {
   Input,
   Button,
@@ -10,8 +10,7 @@ import {
 
 export function ForgotPass() {
   const dispatch = useDispatch();
-  const success = useSelector((state) => state.forgotpassReducer.success);
-  const history = useHistory();
+  const success = useSelector((state: any) => state.forgotpassReducer.success);
 
   const [value, setValue] = useState("");
 
@@ -19,14 +18,13 @@ export function ForgotPass() {
     (event) => {
       event.preventDefault();
       dispatch(getForgotPass());
-      success
-        ? history.push("/reset-password")
-        : history.push("/forgot-password");
     },
-    [dispatch, history, success]
+    [dispatch]
   );
 
-  //Есть баг с необходимость нажать на кнопку восстановть 2 раза, чтобы перейти на сброс пароля.
+  if (success) {
+    return <Redirect to={"/reset-password"} />;
+  }
 
   return (
     <div className={styles.mainbox}>
@@ -42,7 +40,10 @@ export function ForgotPass() {
           name="email"
         />
 
-        <Button extraClass="mb-20 ">Восстановить</Button>
+        <Button htmlType="submit" extraClass="mb-20 ">
+          Восстановить
+        </Button>
+        {/* {success ? <Redirect to={"/reset-password"} /> : null} */}
         <div>
           <span className="text text_type_main-default text_color_inactive">
             Вспомнили пароль?

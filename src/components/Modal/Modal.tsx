@@ -4,12 +4,18 @@ import ReactDOM from "react-dom";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import Overlay from "../Overlay/Overlay";
 import PropTypes from "prop-types";
+import { ReactNode, FC } from "react";
 
 const modalRoot = document.getElementById("react-modal");
 
-export default function Modal({ children, setIsModalOpen }) {
+type TModal = {
+  children: ReactNode;
+  closePopup: () => void;
+};
+
+export const Modal: FC<TModal> = ({ children, closePopup }) => {
   useEffect(() => {
-    function onEsc(evt) {
+    function onEsc(evt: KeyboardEvent) {
       if (evt.code === "Escape") {
         handleClose();
       }
@@ -19,7 +25,7 @@ export default function Modal({ children, setIsModalOpen }) {
   }, []);
 
   const handleClose = () => {
-    setIsModalOpen(false);
+    closePopup();
   };
 
   return ReactDOM.createPortal(
@@ -29,18 +35,17 @@ export default function Modal({ children, setIsModalOpen }) {
           <CloseIcon
             type="primary"
             onClick={handleClose}
-            extraClass={styles.button}
+            // extraClass={styles.button}
           />
         </div>
         {children}
       </div>
       <Overlay handleClose={handleClose} />
     </>,
-    modalRoot
+    modalRoot as HTMLDivElement
   );
-}
+};
 
 Modal.propTypes = {
-  setIsModalOpen: PropTypes.func.isRequired,
   children: PropTypes.element.isRequired,
 };
