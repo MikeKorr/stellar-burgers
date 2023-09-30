@@ -13,15 +13,11 @@ import { useRef } from "react";
 import { OrderButton } from "../OrderButton/OrderButton";
 import { getOrder } from "../../services/actions";
 import { useMemo } from "react";
-import PropTypes, { number } from "prop-types";
-import { ingItem } from "../../utils/prop-types";
-import { Redirect } from "react-router-dom";
-import { FC } from "react";
-import { TIngredient } from "../../services/actions";
 
-type TBurgerConstructor = {
-  changeModal: () => void;
-};
+import { Link, Redirect } from "react-router-dom";
+import { FC, SetStateAction, Dispatch } from "react";
+import { TIngredient } from "../../services/actions";
+import { WS_ORDER_PROFILE_ACTION } from "../../services/actions/route-actions";
 
 type TIng = {
   id: string;
@@ -29,8 +25,14 @@ type TIng = {
   type: string;
 };
 
-export const BurgerConstructor: FC<TBurgerConstructor> = ({ changeModal }) => {
-  const login = useSelector((state: any) => state.loginReducer.login);
+type TBurgerIngredients = {
+  setIsModalOpen: Dispatch<SetStateAction<boolean>>;
+};
+
+export const BurgerConstructor: FC<TBurgerIngredients> = ({
+  setIsModalOpen,
+}) => {
+  const login: boolean = useSelector((state: any) => state.loginReducer.login);
   const dispatch = useDispatch();
   const mainCollect = useSelector(
     (state: any) => state.constructorReducer.mains
@@ -51,12 +53,19 @@ export const BurgerConstructor: FC<TBurgerConstructor> = ({ changeModal }) => {
     }
   };
 
-  const ordId = useMemo(() => {
-    return bunCollect.map((el: TIngredient) => el._id);
-  }, [bunCollect]);
+  // const ordId = useMemo(() => {
+  //   return bunCollect.map((el: TIngredient) => el._id);
+  // }, [bunCollect]);
+  const mainId = mainCollect.map((el: any) => el._id);
+  const bunId = bunCollect.map((el: any) => el._id);
+  const ordId = bunId.concat(mainId).concat(bunId);
 
   const requestId = () => {
     dispatch(getOrder(ordId));
+    setIsModalOpen(true);
+    if (!login) {
+      return <Redirect to={"/login"} />;
+    }
   };
 
   const delElem = (item: TIngredient) => {
@@ -124,19 +133,13 @@ export const BurgerConstructor: FC<TBurgerConstructor> = ({ changeModal }) => {
           })}
         </div>
       </div>
-
-      <div
-        className={styles.order}
-        onClick={() => {
-          // changeModal("Order");
-          requestId();
-          if (!login) {
-            return <Redirect to={"/login"} />;
-          }
-        }}
+      <Link
+        className={styles.order + " text text_type_main-large"}
+        to="/order"
+        onClick={requestId}
       >
         <OrderButton />
-      </div>
+      </Link>
     </div>
   );
 };

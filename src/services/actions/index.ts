@@ -1,6 +1,8 @@
 import { request } from "../../utils/api";
 import { baseUrl } from "../../utils/api";
 import { checkResponse } from "../../utils/api";
+import { Dispatch } from "react";
+import { getCookie } from "../../utils/cookies";
 
 export type TIngredient = {
   _id: string;
@@ -202,12 +204,17 @@ export const getOrder = (id: string[]) => {
   const orderUrl = `${baseUrl}/orders`;
   const options = {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      authorization: "Bearer " + getCookie("access"),
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify({
       ingredients: id,
     }),
   };
-  return (dispatch: any) => {
+  return (
+    dispatch: Dispatch<IGET_ORDER_DONE_ACTION | ICLEAR_CONSTRUCTOR_ACTION>
+  ) => {
     request(orderUrl, options)
       .then(({ success, order: { number } }) => {
         if (success) {
@@ -220,7 +227,7 @@ export const getOrder = (id: string[]) => {
 };
 
 export const getIngElements = () => {
-  return (dispatch: any) => {
+  return (dispatch: Dispatch<ISET_INGREDIENTS_ACTION>) => {
     return fetch(baseUrl + "/ingredients")
       .then(checkResponse)
       .then((data) => {

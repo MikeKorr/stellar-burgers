@@ -76,3 +76,202 @@
 .profilebtn {
   display: flex;
 }
+
+.feedscroll {
+  max-height: 500px;
+  overflow-y: scroll;
+  flex-direction: column;
+  display: flex;
+  margin: 0 40px 0 0;
+}
+
+.donescroll {
+  max-height: 100px;
+  overflow-y: scroll;
+  flex-direction: column;
+  display: flex;
+}
+
+.orderpage {
+  max-width: 1200px;
+  width: 100%;
+  margin: 100px auto;
+  display: flex;
+
+  justify-content: space-around;
+}
+
+.cardtitle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.historybox {
+  display: flex;
+  width: 550px;
+  height: 800px;
+  margin-top: 400px;
+}
+
+.cards {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: white;
+  background: #1c1c21;
+  border-radius: 40px;
+  cursor: pointer;
+  position: relative;
+
+  z-index: 1;
+  max-width: 500px;
+  padding: 20px;
+}
+
+.flexbox {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.carding {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  margin: 0;
+
+  width: 400px;
+  position: relative;
+}
+
+.imgcard {
+  border-radius: 100%;
+  border: 3px solid rgba(164, 115, 232, 0.2);
+  margin: 10px 0 10px 0;
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+}
+
+.donegrid {
+  width: 650px;
+  grid-column-gap: 40px;
+  grid-row-gap: 40px;
+  column-gap: 50px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  row-gap: 10px;
+}
+
+.donepending {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
+  margin: 0 0 0 10px;
+}
+
+.gridorders {
+  grid-gap: 8px;
+  display: grid;
+  flex-wrap: nowrap;
+  gap: 8px;
+  grid-auto-flow: column;
+  grid-template-rows: repeat(10, 1fr);
+  height: 154px;
+  overflow-x: auto;
+  color: #0cc;
+}
+
+.spandone {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+
+  gap: 7px;
+  color: #0cc;
+  flex-direction: row;
+}
+
+.detailbox {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: center;
+  width: 80%;
+}
+
+.detailtitle {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: start;
+  width: 100%;
+}
+
+.dtitle {
+  align-self: center;
+  margin-bottom: 20px;
+}
+
+.detscrollbox {
+  display: flex;
+  width: 90%;
+  align-items: center;
+  justify-content: start;
+}
+
+.detscroll {
+  max-height: 400px;
+  height: 100%;
+  overflow-y: scroll;
+  flex-direction: column;
+  display: flex;
+  align-items: start;
+}
+
+.textdone {
+  color: #0cc;
+}
+
+.startposition {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.detName {
+  display: flex;
+  max-width: 350px;
+}
+
+.detgrow {
+  display: flex;
+  flex-grow: 1;
+
+  align-items: end;
+  justify-content: end;
+}
+
+.dataprice {
+  display: flex;
+  width: 78%;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dcenter {
+  display: flex;
+  align-items: center;
+}
+
+.feedcolumn {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+}

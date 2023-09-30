@@ -12,12 +12,12 @@ import { ADD_DETAILS_ACTION, TIngredient } from "../../services/actions";
 import PropTypes from "prop-types";
 import { ingItem } from "../../utils/prop-types";
 import { Link } from "react-router-dom";
-import { FC } from "react";
+import { FC, SetStateAction, Dispatch } from "react";
 
 type TIngredientList = {
   type: string;
   ingType: string;
-  setIsModalOpen: () => void;
+  setIsModalOpen: Dispatch<SetStateAction<boolean>>;
 };
 
 export const IngredientList: FC<TIngredientList> = ({

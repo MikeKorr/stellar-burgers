@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import styles from "./Modal.module.css";
 import ReactDOM from "react-dom";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import Overlay from "../Overlay/Overlay";
+import { Overlay } from "../Overlay/Overlay";
 import PropTypes from "prop-types";
 import { ReactNode, FC } from "react";
 

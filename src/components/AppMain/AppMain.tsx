@@ -1,9 +1,13 @@
 import { BurgerIngredients } from "../BurgerIngredients/BurgerIngredients";
 import { BurgerConstructor } from "../BurgerConstructor/BurgerConstructor";
 import styles from "./AppMain.module.css";
-import { FC } from "react";
+import { FC, SetStateAction, Dispatch } from "react";
 
-export const AppMain = ({ setIsModalOpen }) => {
+type TAppMain = {
+  setIsModalOpen: Dispatch<SetStateAction<boolean>>;
+};
+
+export const AppMain: FC<TAppMain> = ({ setIsModalOpen }) => {
   return (
     <main className={styles.main}>
       <BurgerIngredients setIsModalOpen={setIsModalOpen} />

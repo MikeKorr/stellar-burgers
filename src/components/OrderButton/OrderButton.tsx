@@ -1,13 +1,15 @@
 import { useMemo } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styles from "./OrderButton.module.css";
 import {
   Button,
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { TIngredient } from "../../services/actions";
+import { FC, SetStateAction, Dispatch } from "react";
+import { GET_ORDER_DONE_ACTION } from "../../services/actions";
 
-export const OrderButton = () => {
+export const OrderButton: FC = () => {
   const main: TIngredient[] = useSelector(
     (state: any) => state.constructorReducer.mains
   );
