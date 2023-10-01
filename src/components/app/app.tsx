@@ -100,22 +100,14 @@ const App: FC = () => {
           <PageNotFound />
         </Route>
       </Switch>
-      {/* 
-      {background && (
-        <Switch>
-          <Route path="/ingredients/:id">
-            <Modal closePopup={closePopup}>
-              <IngredientsDetails />
-            </Modal>
-          </Route>
 
-          <Route path="/">
-            <Modal closePopup={closePopup}>
-              <OrderDetails />
-            </Modal>
-          </Route>
-        </Switch>
-      )} */}
+      {background && (
+        <Route path="/ingredients/:id">
+          <Modal closePopup={closePopup}>
+            <IngredientsDetails />
+          </Modal>
+        </Route>
+      )}
     </div>
   );
 };

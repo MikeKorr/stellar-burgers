@@ -7,11 +7,6 @@ import { useParams } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { FormattedDate } from "@ya.praktikum/react-developer-burger-ui-components";
-import {
-  WS_START_ACTION,
-  WS_START_PROFILE_ACTION,
-} from "../services/actions/route-actions";
-import { getCookie } from "../utils/cookies";
 
 export const CardDetails: FC = () => {
   const dispatch = useDispatch();

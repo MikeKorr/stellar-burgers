@@ -6,10 +6,14 @@ import {
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { TIngredient } from "../../services/actions";
-import { FC, SetStateAction, Dispatch } from "react";
-import { GET_ORDER_DONE_ACTION } from "../../services/actions";
+import { FC } from "react";
 
-export const OrderButton: FC = () => {
+import { Link } from "react-router-dom";
+type TOrderButton = {
+  requestId: () => void;
+};
+
+export const OrderButton: FC<TOrderButton> = ({ requestId }) => {
   const main: TIngredient[] = useSelector(
     (state: any) => state.constructorReducer.mains
   );
@@ -22,16 +26,30 @@ export const OrderButton: FC = () => {
       bunCollect.reduce((acc, { price }) => acc + price, 0) * 2,
     [main, bunCollect]
   );
+  const login: boolean = useSelector((state: any) => state.loginReducer.login);
+  if (login) {
+    <Button htmlType="button" disabled={false} />;
+  }
   return (
     <div className={styles.left + " mt-10"}>
       <div className={styles.box + " mr-10"}>
         <p className="text text_type_digits-medium">{orderPrice}</p>
         <CurrencyIcon type="primary" />
       </div>
-
-      <Button htmlType="button" type="primary" size="large">
-        Оформить заказ
-      </Button>
+      <Link
+        className={styles.order + " text text_type_main-medium"}
+        to={!login ? "/login" : "/order"}
+      >
+        <Button
+          onClick={requestId}
+          disabled={!login}
+          htmlType="button"
+          type="primary"
+          size="large"
+        >
+          Оформить заказ
+        </Button>
+      </Link>
     </div>
   );
 };

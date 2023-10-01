@@ -4,7 +4,6 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./BurgerConstructor.module.css";
 import { useDrag, useDrop } from "react-dnd";
-
 import { useDispatch, useSelector } from "react-redux";
 import { SET_BUN_ACTION, DEL_ING_ACTION } from "../../services/actions";
 import { ADD_ING_ACTION, DND_ING_ACTION } from "../../services/actions";
@@ -12,12 +11,9 @@ import { nanoid } from "nanoid";
 import { useRef } from "react";
 import { OrderButton } from "../OrderButton/OrderButton";
 import { getOrder } from "../../services/actions";
-import { useMemo } from "react";
 
-import { Link, Redirect } from "react-router-dom";
 import { FC, SetStateAction, Dispatch } from "react";
 import { TIngredient } from "../../services/actions";
-import { WS_ORDER_PROFILE_ACTION } from "../../services/actions/route-actions";
 
 type TIng = {
   id: string;
@@ -25,14 +21,13 @@ type TIng = {
   type: string;
 };
 
-type TBurgerIngredients = {
+type TBurgerConstructor = {
   setIsModalOpen: Dispatch<SetStateAction<boolean>>;
 };
 
-export const BurgerConstructor: FC<TBurgerIngredients> = ({
+export const BurgerConstructor: FC<TBurgerConstructor> = ({
   setIsModalOpen,
 }) => {
-  const login: boolean = useSelector((state: any) => state.loginReducer.login);
   const dispatch = useDispatch();
   const mainCollect = useSelector(
     (state: any) => state.constructorReducer.mains
@@ -53,9 +48,6 @@ export const BurgerConstructor: FC<TBurgerIngredients> = ({
     }
   };
 
-  // const ordId = useMemo(() => {
-  //   return bunCollect.map((el: TIngredient) => el._id);
-  // }, [bunCollect]);
   const mainId = mainCollect.map((el: any) => el._id);
   const bunId = bunCollect.map((el: any) => el._id);
   const ordId = bunId.concat(mainId).concat(bunId);
@@ -63,19 +55,12 @@ export const BurgerConstructor: FC<TBurgerIngredients> = ({
   const requestId = () => {
     dispatch(getOrder(ordId));
     setIsModalOpen(true);
-    if (!login) {
-      return <Redirect to={"/login"} />;
-    }
   };
 
   const delElem = (item: TIngredient) => {
     dispatch(DEL_ING_ACTION(item));
   };
 
-  const [, dropConst] = useDrop(() => ({
-    accept: "elem",
-    drop: (item: TIng) => newCardElement(item.item),
-  }));
   return (
     <div ref={dropIng}>
       <div className={styles.const + " mb-4 mt-4"}>
@@ -97,7 +82,7 @@ export const BurgerConstructor: FC<TBurgerIngredients> = ({
             );
         })}
       </div>
-      <div className={styles.main + " custom-scroll"} ref={dropConst}>
+      <div className={styles.main + " custom-scroll"}>
         {mainCollect.map((item: TIngredient, index: number) => {
           if (item.type !== "bun") {
             return (
@@ -133,13 +118,8 @@ export const BurgerConstructor: FC<TBurgerIngredients> = ({
           })}
         </div>
       </div>
-      <Link
-        className={styles.order + " text text_type_main-large"}
-        to="/order"
-        onClick={requestId}
-      >
-        <OrderButton />
-      </Link>
+
+      <OrderButton requestId={requestId} />
     </div>
   );
 };
