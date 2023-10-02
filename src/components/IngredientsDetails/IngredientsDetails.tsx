@@ -1,10 +1,10 @@
 import { useParams } from "react-router-dom";
 import styles from "./IngredientsDetails.module.css";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "../../services/hooks/hooks";
 
 export function IngredientsDetails() {
-  const ingredients = useSelector(
-    (state: any) => state.ingredientReducer.ingredient
+  const ingredients = useAppSelector(
+    (state) => state.ingredientReducer.ingredient
   );
   const { id } = useParams<{ id: string }>();
   const ing = ingredients.find((el: any) => el._id === id);

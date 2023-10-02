@@ -1,15 +1,17 @@
-import { ADD_DETAILS, DEL_DETAILS } from "../actions";
+import { ADD_DETAILS, DEL_DETAILS, TIngredient } from "../actions";
 import { TUnionActions } from "../actions/route-actions";
 
 type TDetailState = {
-  ingDetails: {
-    image_large?: string;
-    name?: string;
-    calories?: number;
-    proteins?: number;
-    fat?: number;
-    carbohydrates?: number;
-  };
+  ingDetails:
+    | {
+        image_large?: string;
+        name?: string;
+        calories?: number;
+        proteins?: number;
+        fat?: number;
+        carbohydrates?: number;
+      }
+    | TIngredient;
 };
 
 export const detailState: TDetailState = {

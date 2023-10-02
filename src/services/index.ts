@@ -17,7 +17,7 @@ import { socketMiddleware, wsUrl, ordersUrl } from "../middleware/ws";
 import { wsActions, wsProfileActions } from "./actions/route-actions";
 import { wsProfileReducer } from "./reducers/wsProfileReducer";
 
-const rootReducer = combineReducers({
+export const rootReducer = combineReducers({
   ingredientReducer,
   scrollReducer,
   detailReducer,

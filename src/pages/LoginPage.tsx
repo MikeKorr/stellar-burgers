@@ -10,10 +10,11 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useSelector } from "react-redux";
 import { FormEventHandler } from "react";
+import { useAppSelector, useAppDispatch } from "../services/hooks/hooks";
 
 export function LoginPage() {
-  const dispatch = useDispatch();
-  const login = useSelector((state: any) => state.loginReducer.login);
+  const dispatch = useAppDispatch();
+  const login = useAppSelector((state) => state.loginReducer.login);
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const submitForm: FormEventHandler<HTMLFormElement> = (event) => {
@@ -41,7 +42,6 @@ export function LoginPage() {
           extraClass="mb-6"
           onChange={(event) => setPassword(event.target.value)}
           value={password}
-          // type="password"
         />
         <Button htmlType="submit" extraClass="mb-20 ">
           Войти

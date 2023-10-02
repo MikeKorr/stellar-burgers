@@ -27,17 +27,12 @@ import { TLocation } from "../../services/types/types";
 import { FeedPage } from "../../pages/FeedPage";
 import { CardDetails } from "../../pages/CardDetails";
 import { CardProfileDetails } from "../../pages/CardProfileDetails";
+import { useAppDispatch } from "../../services/hooks/hooks";
 
 const App: FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const dispatch = useDispatch();
-  const [itemModal, setItemModal] = useState("");
-  const history = useHistory();
-
-  const closePopup = () => {
-    setIsModalOpen(false);
-    history.push("/");
-  };
+  const dispatch = useAppDispatch();
+  // const [itemModal, setItemModal] = useState("");
 
   useEffect(() => {
     dispatch(getIngElements());
@@ -46,7 +41,7 @@ const App: FC = () => {
   }, [dispatch]);
 
   const location = useLocation<TLocation>();
-  const background = location.state && location.state.background;
+  let background = location.state && location.state.background;
 
   return (
     <div className={styles.app}>
@@ -55,29 +50,26 @@ const App: FC = () => {
         <Route path="/" exact={true}>
           <AppMain setIsModalOpen={setIsModalOpen} />
         </Route>
-        {/* <Route path="/ingredients/:id" exact>
+        <Route path="/ingredients/:id">
           <IngPage />
-        </Route> */}
+        </Route>
+
         <Route path="/feed" exact={true}>
           <FeedPage />
         </Route>
         <Route path="/feed/:id" exact={true}>
-          <Modal closePopup={closePopup}>
+          <Modal closePopup={() => setIsModalOpen(false)}>
             <CardDetails />
           </Modal>
         </Route>
         <Route path="/profile/orders/:id" exact={true}>
-          <Modal closePopup={closePopup}>
+          <Modal closePopup={() => setIsModalOpen(false)}>
             <CardProfileDetails />
           </Modal>
         </Route>
-        <Route path="/ingredients/:id">
-          <Modal closePopup={closePopup}>
-            <IngredientsDetails />
-          </Modal>
-        </Route>
+
         <Route path="/order">
-          <Modal closePopup={closePopup}>
+          <Modal closePopup={() => setIsModalOpen(false)}>
             <OrderDetails />
           </Modal>
         </Route>
@@ -101,9 +93,9 @@ const App: FC = () => {
         </Route>
       </Switch>
 
-      {background && (
+      {isModalOpen && (
         <Route path="/ingredients/:id">
-          <Modal closePopup={closePopup}>
+          <Modal closePopup={() => setIsModalOpen(false)}>
             <IngredientsDetails />
           </Modal>
         </Route>

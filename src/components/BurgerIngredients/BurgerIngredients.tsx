@@ -5,6 +5,7 @@ import { useEffect, useRef } from "react";
 import { SET_TAB_ACTION, SCROLL_ING_ACTION } from "../../services/actions";
 import { IngredientList } from "../Ingredient/Ingredient";
 import { FC, SetStateAction, Dispatch } from "react";
+import { useAppSelector, useAppDispatch } from "../../services/hooks/hooks";
 
 type TBurgerIngredients = {
   setIsModalOpen: Dispatch<SetStateAction<boolean>>;
@@ -13,8 +14,8 @@ type TBurgerIngredients = {
 export const BurgerIngredients: FC<TBurgerIngredients> = ({
   setIsModalOpen,
 }) => {
-  const dispatch = useDispatch();
-  const scroll = useSelector((state: any) => state.scrollReducer.scroll);
+  const dispatch = useAppDispatch();
+  const scroll = useAppSelector((state) => state.scrollReducer.scroll);
 
   const refBun = useRef<HTMLParagraphElement>(null);
   const refSauce = useRef<HTMLParagraphElement>(null);
@@ -109,8 +110,8 @@ export const BurgerIngredients: FC<TBurgerIngredients> = ({
 };
 
 function BurgerComponents() {
-  const dispatch = useDispatch();
-  const current = useSelector((state: any) => state.scrollReducer.current);
+  const dispatch = useAppDispatch();
+  const current = useAppSelector((state) => state.scrollReducer.current);
   const setCurrent = (value: string) => {
     dispatch(SET_TAB_ACTION(value));
     dispatch(SCROLL_ING_ACTION(value));

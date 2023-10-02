@@ -3,8 +3,9 @@ import styles from "./Modal.module.css";
 import ReactDOM from "react-dom";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Overlay } from "../Overlay/Overlay";
-import PropTypes from "prop-types";
+
 import { ReactNode, FC } from "react";
+import { useHistory } from "react-router-dom";
 
 const modalRoot = document.getElementById("react-modal");
 
@@ -24,19 +25,18 @@ export const Modal: FC<TModal> = ({ children, closePopup }) => {
     return () => document.removeEventListener("keydown", onEsc);
   }, []);
 
+  const history = useHistory();
+
   const handleClose = () => {
     closePopup();
+    history.goBack();
   };
 
   return ReactDOM.createPortal(
     <>
       <div className={styles.modal}>
         <div className={styles.button}>
-          <CloseIcon
-            type="primary"
-            onClick={handleClose}
-            // extraClass={styles.button}
-          />
+          <CloseIcon type="primary" onClick={handleClose} />
         </div>
         {children}
       </div>
@@ -44,8 +44,4 @@ export const Modal: FC<TModal> = ({ children, closePopup }) => {
     </>,
     modalRoot as HTMLDivElement
   );
-};
-
-Modal.propTypes = {
-  children: PropTypes.element.isRequired,
 };

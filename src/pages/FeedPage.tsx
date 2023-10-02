@@ -12,20 +12,26 @@ import { useEffect } from "react";
 import {
   WS_START_ACTION,
   WS_START_PROFILE_ACTION,
+  WS_STOP_ACTION,
 } from "../services/actions/route-actions";
-import { getCookie } from "../utils/cookies";
+
+import { useAppSelector, useAppDispatch } from "../services/hooks/hooks";
+import { nanoid } from "nanoid";
 
 export const FeedPage: FC = () => {
-  const dispatch = useDispatch();
-  const order = useSelector((state: any) => state.wsReducer.orders);
-  const total = useSelector((state: any) => state.wsReducer.total);
-  const totalToday = useSelector((state: any) => state.wsReducer.totalToday);
-
+  const dispatch = useAppDispatch();
+  const order = useAppSelector((state) => state.wsReducer.orders);
+  const total = useAppSelector((state) => state.wsReducer.total);
+  const totalToday = useAppSelector((state) => state.wsReducer.totalToday);
+  const location = useLocation();
   useEffect(() => {
-    const token = getCookie("access");
-    dispatch(WS_START_ACTION(token));
-    dispatch(WS_START_PROFILE_ACTION(token));
-  }, []);
+    if (location.pathname !== "/feed") {
+      dispatch(WS_STOP_ACTION());
+    } else {
+      dispatch(WS_START_ACTION());
+      return () => {};
+    }
+  }, [location, dispatch]);
 
   return (
     order && (
@@ -33,7 +39,7 @@ export const FeedPage: FC = () => {
         <div className={styles.orderscroll}>
           <span className="text text_type_main-large">Лента заказов</span>
           <div className={styles.feedscroll + " custom-scroll"}>
-            {order.map((card: any) => {
+            {order.map((card) => {
               return <Cards card={card} key={card._id} />;
             })}
           </div>
@@ -43,19 +49,20 @@ export const FeedPage: FC = () => {
             <span className="text text_type_main-medium">Готовы:</span>
             <span className="text text_type_main-medium">В работе:</span>
             <div className={styles.donescroll + " custom-scroll"}>
-              {order.map((el: any, index: any) => {
-                if (el.status === "done" && index < 20)
+              {order.map((it, index) => {
+                if (it.status === "done" && index < 20)
                   return (
                     <div
+                      key={it._id}
                       className={styles.spandone + " text_type_digits-default"}
                     >
-                      <div key={el._id}>{el.number}</div>
+                      <div>{it.number}</div>
                     </div>
                   );
               })}
             </div>
             <div className={styles.gridorders}>
-              {order.map((el: any) => {
+              {order.map((el) => {
                 if (el.status === "pending")
                   return (
                     <span className={styles.spandone} key={el._id}>
@@ -88,15 +95,15 @@ type TCards = {
 };
 
 export const Cards: FC<TCards> = ({ card }) => {
-  const ingredients = useSelector(
-    (state: any) => state.ingredientReducer.ingredient
+  const ingredients = useAppSelector(
+    (state) => state.ingredientReducer.ingredient
   );
   const location = useLocation();
   const cardIng = card.ingredients;
   const reduceCard = () =>
     cardIng
       .map((el) => {
-        return ingredients.filter((item: any) => item._id === el);
+        return ingredients.filter((item) => item._id === el);
       })
       .reduce((acc, item) => {
         return acc.concat(item);
@@ -105,7 +112,7 @@ export const Cards: FC<TCards> = ({ card }) => {
   const ingResult = reduceCard();
 
   const cardPrice = () => {
-    return ingResult.reduce((acc: any, item: any) => acc + item.price, 0);
+    return ingResult.reduce((acc, item) => acc + item.price, 0);
   };
 
   return (
@@ -130,8 +137,8 @@ export const Cards: FC<TCards> = ({ card }) => {
         <span className="text text_type_main-medium">{card.name}</span>
         <div className={styles.dcenter}>
           <div className={styles.carding}>
-            {ingResult.slice(0, 5).map((el: any) => (
-              <div className={styles.flexbox}>
+            {ingResult.slice(0, 5).map((el) => (
+              <div key={nanoid()} className={styles.flexbox}>
                 <img className={styles.imgcard} src={el.image_mobile} />
               </div>
             ))}

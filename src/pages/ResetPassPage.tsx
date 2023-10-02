@@ -9,20 +9,21 @@ import { useDispatch, useSelector } from "react-redux";
 import { resetPassAction } from "../services/actions/route-actions";
 import { useEffect, useState, FormEventHandler, EffectCallback } from "react";
 import { GET_PASS_ACTION } from "../services/actions/route-actions";
+import { useAppSelector, useAppDispatch } from "../services/hooks/hooks";
 
 export function ResetPassPage() {
-  const dispatch = useDispatch();
-  const successForgot = useSelector(
-    (state: any) => state.forgotpassReducer.success
+  const dispatch = useAppDispatch();
+  const successForgot = useAppSelector(
+    (state) => state.forgotpassReducer.success
   );
-  const success = useSelector((state: any) => state.resetReducer.success);
+  const success = useAppSelector((state) => state.resetReducer.success);
   const resetPass: FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
     dispatch(resetPassAction());
   };
   const [value, setValue] = useState({ password: "", token: "" });
 
-  useEffect((): any => {
+  useEffect(() => {
     return () => {
       dispatch(GET_PASS_ACTION(false));
     };

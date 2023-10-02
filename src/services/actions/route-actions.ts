@@ -17,6 +17,7 @@ import {
   IGET_ORDER_DONE_ACTION,
 } from ".";
 import { TOrderComponents } from "../types/types";
+import { ThunkFunc } from "../hooks/hooks";
 export const GET_PROFILE_INFO = "GET_PROFILE_INFO";
 export const PATCH_PROFILE_INFO = "PATCH_PROFILE_INFO";
 
@@ -40,8 +41,6 @@ interface IPATCH_INFO_ACTION {
   readonly payload: TPayloadProfile;
 }
 
-type TProfileActions = IGET_INFO_ACTION | IPATCH_INFO_ACTION;
-
 const GET_INFO_ACTION = (payload: TPayloadProfile): IGET_INFO_ACTION => ({
   type: GET_PROFILE_INFO,
   payload,
@@ -52,7 +51,7 @@ const PATCH_INFO_ACTION = (payload: TPayloadProfile): IPATCH_INFO_ACTION => ({
   payload,
 });
 
-export const getProfileInfo = () => {
+export const getProfileInfo: ThunkFunc = () => {
   const profileUrl = `${baseUrl}/auth/user`;
   const options = {
     headers: {
@@ -60,7 +59,7 @@ export const getProfileInfo = () => {
       "Content-Type": "application/json",
     },
   };
-  return (dispatch: Dispatch<IGET_INFO_ACTION>) => {
+  return (dispatch) => {
     request(profileUrl, options)
       .then((data) => {
         const { done } = data;
@@ -72,7 +71,7 @@ export const getProfileInfo = () => {
   };
 };
 
-export const patchProfileInfo = (
+export const patchProfileInfo: ThunkFunc = (
   name: string,
   email: string,
   password: string
@@ -90,7 +89,7 @@ export const patchProfileInfo = (
       password,
     }),
   };
-  return (dispatch: Dispatch<IPATCH_INFO_ACTION>) => {
+  return (dispatch) => {
     request(profileUrl, options)
       .then((data) => {
         const { done } = data;
@@ -122,8 +121,6 @@ interface IUSER_LOGOUT_ACTION {
   readonly payload: boolean;
 }
 
-type TLoginActions = IUSER_LOG_ACTION | IUSER_LOGOUT_ACTION;
-
 export const USER_LOG_ACTION = (payload: boolean): IUSER_LOG_ACTION => ({
   type: USER_LOG,
   payload: payload,
@@ -134,7 +131,7 @@ export const USER_LOGOUT_ACTION = (payload: boolean): IUSER_LOGOUT_ACTION => ({
   payload: payload,
 });
 
-export const userLogin = (user: TLogin) => {
+export const userLogin: ThunkFunc = (user: TLogin) => {
   const { email, password } = user;
   const loginUrl = `${baseUrl}/auth/login`;
   const options = {
@@ -147,7 +144,7 @@ export const userLogin = (user: TLogin) => {
       password,
     }),
   };
-  return (dispatch: Dispatch<IUSER_LOG_ACTION>) => {
+  return (dispatch) => {
     request(loginUrl, options)
       .then((data) => {
         const { success, refreshToken, accessToken } = data;
@@ -162,7 +159,7 @@ export const userLogin = (user: TLogin) => {
   };
 };
 
-export const userLogout = () => {
+export const userLogout: ThunkFunc = () => {
   const logoutUrl = `${baseUrl}/auth/logout`;
   const options = {
     method: "POST",
@@ -173,7 +170,7 @@ export const userLogout = () => {
       token: getCookie("refresh"),
     }),
   };
-  return (dispatch: Dispatch<IUSER_LOGOUT_ACTION>) => {
+  return (dispatch) => {
     request(logoutUrl, options)
       .then((data) => {
         const { success } = data;
@@ -207,14 +204,12 @@ interface IUSER_REG_ACTION {
   readonly payload: TPayloadRegister;
 }
 
-type TRegisterAction = IUSER_REG_ACTION;
-
 const USER_REG_ACTION = (payload: TPayloadRegister): IUSER_REG_ACTION => ({
   type: USER_REG,
   payload: payload,
 });
 
-export const userReg = (user: TRegister) => {
+export const userReg: ThunkFunc = (user: TRegister) => {
   const { email, password, name } = user;
   const regUrl = `${baseUrl}/auth/register`;
   const options = {
@@ -228,12 +223,12 @@ export const userReg = (user: TRegister) => {
       name,
     }),
   };
-  return (dispatch: any) => {
+  return (dispatch) => {
     request(regUrl, options)
       .then((res) => {
         dispatch(USER_REG_ACTION(res));
       })
-      .catch((er: any) => console.log(er));
+      .catch((er) => console.log(er));
   };
 };
 
@@ -246,14 +241,12 @@ interface IGET_PASS_ACTION {
   readonly payload: boolean;
 }
 
-type TForgotAction = IGET_PASS_ACTION;
-
 export const GET_PASS_ACTION = (payload: boolean): IGET_PASS_ACTION => ({
   type: GET_PASS,
   payload: payload,
 });
 
-export const getForgotPass = () => {
+export const getForgotPass: ThunkFunc = () => {
   const passUrl = `${baseUrl}/password-reset`;
   const options = {
     method: "POST",
@@ -264,12 +257,12 @@ export const getForgotPass = () => {
       email: "",
     }),
   };
-  return (dispatch: any) => {
+  return (dispatch) => {
     request(passUrl, options)
       .then(({ success }) => {
         dispatch(GET_PASS_ACTION(success));
       })
-      .catch((er: any) => console.log(er));
+      .catch((er) => console.log(er));
   };
 };
 
@@ -282,14 +275,12 @@ interface IRESET_PASS_ACTION {
   payload: boolean;
 }
 
-type TResetAction = IRESET_PASS_ACTION;
-
 const RESET_PASS_ACTION = (payload: boolean): IRESET_PASS_ACTION => ({
   type: RESET_PASS,
   payload: payload,
 });
 
-export const resetPassAction = () => {
+export const resetPassAction: ThunkFunc = () => {
   const resetUrl = `${baseUrl}/password-reset/reset`;
   const options = {
     method: "POST",
@@ -301,21 +292,23 @@ export const resetPassAction = () => {
       token: "",
     }),
   };
-  return (dispatch: Dispatch<IRESET_PASS_ACTION>) => {
+  return (dispatch) => {
     request(resetUrl, options)
       .then(({ success }) => {
         dispatch(RESET_PASS_ACTION(success));
       })
-      .catch((er: any) => console.log(er));
+      .catch((er) => console.log(er));
   };
 };
 
 export type TUnionActions =
-  | TProfileActions
-  | TLoginActions
-  | TRegisterAction
-  | TForgotAction
-  | TResetAction
+  | IGET_INFO_ACTION
+  | IPATCH_INFO_ACTION
+  | IUSER_LOG_ACTION
+  | IUSER_LOGOUT_ACTION
+  | IUSER_REG_ACTION
+  | IGET_PASS_ACTION
+  | IRESET_PASS_ACTION
   | ISET_INGREDIENTS_ACTION
   | ISET_ITEM_ACTION
   | ISET_TAB_ACTION
@@ -328,7 +321,9 @@ export type TUnionActions =
   | IADD_DETAILS_ACTION
   | IDEL_DETAILS_ACTION
   | IGET_ORDER_REQUEST_ACTION
-  | IGET_ORDER_DONE_ACTION;
+  | IGET_ORDER_DONE_ACTION
+  | TUnionWsActions
+  | TUnionWsProfileActions;
 
 //ws
 
@@ -343,15 +338,11 @@ export const WS_START = "WS_START";
 
 interface IWS_START_ACTION {
   readonly type: typeof WS_START;
-  readonly payload: string | undefined;
 }
 
-export const WS_START_ACTION = (
-  payload: string | undefined
-): IWS_START_ACTION => {
+export const WS_START_ACTION = (): IWS_START_ACTION => {
   return {
     type: WS_START,
-    payload: payload,
   };
 };
 

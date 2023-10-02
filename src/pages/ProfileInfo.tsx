@@ -10,14 +10,15 @@ import {
 import { patchProfileInfo } from "../services/actions/route-actions";
 import { useState } from "react";
 import { FormEventHandler } from "react";
+import { useAppSelector, useAppDispatch } from "../services/hooks/hooks";
 
 export const ProfileInfo = () => {
-  const dispatch = useDispatch();
-  const chagngedEmail = useSelector(
-    (state: any) => state.profileReducer.user.email
+  const dispatch = useAppDispatch();
+  const chagngedEmail = useAppSelector(
+    (state) => state.profileReducer.user.email
   );
-  const chagngedName = useSelector(
-    (state: any) => state.profileReducer.user.name
+  const chagngedName = useAppSelector(
+    (state) => state.profileReducer.user.name
   );
 
   const [value, setValue] = useState({

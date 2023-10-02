@@ -12,19 +12,14 @@ import {
   WS_START_PROFILE_ACTION,
 } from "../services/actions/route-actions";
 import { getCookie } from "../utils/cookies";
+import { useAppDispatch } from "../services/hooks/hooks";
 
 export const ProfilePage: FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const logoutProfile = useCallback(() => {
     dispatch(userLogout());
   }, [dispatch]);
-
-  useEffect(() => {
-    const token = getCookie("access");
-    dispatch(WS_START_ACTION(token));
-    dispatch(WS_START_PROFILE_ACTION(token));
-  }, []);
 
   return (
     <div>

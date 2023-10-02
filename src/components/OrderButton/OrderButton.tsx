@@ -7,18 +7,18 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { TIngredient } from "../../services/actions";
 import { FC } from "react";
-
+import { useAppSelector } from "../../services/hooks/hooks";
 import { Link } from "react-router-dom";
 type TOrderButton = {
   requestId: () => void;
 };
 
 export const OrderButton: FC<TOrderButton> = ({ requestId }) => {
-  const main: TIngredient[] = useSelector(
-    (state: any) => state.constructorReducer.mains
+  const main: TIngredient[] = useAppSelector(
+    (state) => state.constructorReducer.mains
   );
-  const bunCollect: TIngredient[] = useSelector(
-    (state: any) => state.constructorReducer.buns
+  const bunCollect: TIngredient[] = useAppSelector(
+    (state) => state.constructorReducer.buns
   );
   const orderPrice = useMemo(
     () =>
@@ -26,7 +26,7 @@ export const OrderButton: FC<TOrderButton> = ({ requestId }) => {
       bunCollect.reduce((acc, { price }) => acc + price, 0) * 2,
     [main, bunCollect]
   );
-  const login: boolean = useSelector((state: any) => state.loginReducer.login);
+  const login: boolean = useAppSelector((state) => state.loginReducer.login);
   if (login) {
     <Button htmlType="button" disabled={false} />;
   }

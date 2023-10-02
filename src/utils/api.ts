@@ -1,6 +1,6 @@
 export const baseUrl = "https://norma.nomoreparties.space/api";
 
-export const checkResponse = (res: any) => {
+export const checkResponse = (res: Response) => {
   if (res.ok) {
     return res.json();
   }
@@ -11,7 +11,7 @@ export const checkResponse = (res: any) => {
 //   return fetch(baseUrl + "/orders", options).then(checkResponse);
 // };
 
-export const request = async (url: string, options: any) => {
+export const request = async (url: string, options?: any) => {
   const res = await fetch(url, options);
   return checkResponse(res);
 };

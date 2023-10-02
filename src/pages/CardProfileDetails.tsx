@@ -1,33 +1,23 @@
 import styles from "./Pages.module.css";
-import { FC, useEffect, useMemo } from "react";
-import { getIngElements } from "../services/actions";
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
+import { FC, useMemo } from "react";
+
 import { useParams } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { FormattedDate } from "@ya.praktikum/react-developer-burger-ui-components";
-import {
-  WS_START_ACTION,
-  WS_START_PROFILE_ACTION,
-} from "../services/actions/route-actions";
-import { getCookie } from "../utils/cookies";
+
+import { useAppSelector, useAppDispatch } from "../services/hooks/hooks";
 
 export const CardProfileDetails: FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const location = useLocation();
   console.log(location.pathname, "локация");
-  useEffect(() => {
-    dispatch(getIngElements());
-    const token = getCookie("access");
-    dispatch(WS_START_ACTION(token));
-    dispatch(WS_START_PROFILE_ACTION(token));
-  }, []);
-  const ingredients = useSelector(
-    (state: any) => state.ingredientReducer.ingredient
+
+  const ingredients = useAppSelector(
+    (state) => state.ingredientReducer.ingredient
   );
 
-  const data = useSelector((state: any) => state.wsProfileReducer.orders);
+  const data = useAppSelector((state: any) => state.wsProfileReducer.orders);
 
   const { id } = useParams<{ id: string }>();
 
@@ -36,15 +26,13 @@ export const CardProfileDetails: FC = () => {
   }, [data, id]);
 
   const detailArrs = () => {
-    return ingredients.filter((el: any) =>
-      orderData?.ingredients.includes(el._id)
-    );
+    return ingredients.filter((el) => orderData?.ingredients.includes(el._id));
   };
 
   const detailArr = detailArrs();
 
   const ordPrice = orderData?.ingredients.map((el: any) => {
-    return ingredients.find((elem: any) => elem._id === el);
+    return ingredients.find((elem) => elem._id === el);
   });
 
   const reducePrice = ordPrice?.reduce(
@@ -70,7 +58,7 @@ export const CardProfileDetails: FC = () => {
         <span className="text text_type_main-medium">Cостав:</span>
         <div className={styles.detscroll + " custom-scroll"}>
           {orderData &&
-            detailArr.map((el: any) => {
+            detailArr.map((el) => {
               return (
                 <div key={el._id} className={styles.detscrollbox}>
                   <img className={styles.imgcard} src={el.image_mobile} />

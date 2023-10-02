@@ -11,9 +11,10 @@ import { nanoid } from "nanoid";
 import { useRef } from "react";
 import { OrderButton } from "../OrderButton/OrderButton";
 import { getOrder } from "../../services/actions";
-
+import { useAppDispatch } from "../../services/hooks/hooks";
 import { FC, SetStateAction, Dispatch } from "react";
 import { TIngredient } from "../../services/actions";
+import { useAppSelector } from "../../services/hooks/hooks";
 
 type TIng = {
   id: string;
@@ -28,11 +29,9 @@ type TBurgerConstructor = {
 export const BurgerConstructor: FC<TBurgerConstructor> = ({
   setIsModalOpen,
 }) => {
-  const dispatch = useDispatch();
-  const mainCollect = useSelector(
-    (state: any) => state.constructorReducer.mains
-  );
-  const bunCollect = useSelector((state: any) => state.constructorReducer.buns);
+  const dispatch = useAppDispatch();
+  const mainCollect = useAppSelector((state) => state.constructorReducer.mains);
+  const bunCollect = useAppSelector((state) => state.constructorReducer.buns);
   const [, dropIng] = useDrop(() => ({
     accept: "ingredient",
     drop: (item: TIng) => newCardElement(item.item),
@@ -138,7 +137,7 @@ const BurgerConstElement: FC<TBurgerConstElement> = ({
   index,
 }) => {
   const ref = useRef(null);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const changeCardPosition = (drag: number, drop: number) => {
     dispatch(DND_ING_ACTION(drag, drop));
   };
@@ -192,14 +191,3 @@ const BurgerConstElement: FC<TBurgerConstElement> = ({
     </div>
   );
 };
-
-// BurgerConstElement.propTypes = {
-//   elem: ingItem.isRequired,
-//   delElem: PropTypes.func.isRequired,
-//   id: PropTypes.string.isRequired,
-//   index: PropTypes.number.isRequired,
-// };
-
-// BurgerConstructor.propTypes = {
-//   changeModal: PropTypes.func.isRequired,
-// };
