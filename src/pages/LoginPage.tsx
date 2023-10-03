@@ -1,7 +1,7 @@
 import styles from "./Pages.module.css";
 import { useDispatch } from "react-redux";
 import { userLogin } from "../services/actions/route-actions";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, Redirect } from "react-router-dom";
 import {
   Input,
@@ -26,6 +26,10 @@ export function LoginPage() {
     dispatch(userLogin(user));
   };
 
+  if (login) {
+    return <Redirect to="/profile" />;
+  }
+
   return (
     <div className={styles.mainbox}>
       <form className={styles.logform} onSubmit={submitForm}>
@@ -46,7 +50,7 @@ export function LoginPage() {
         <Button htmlType="submit" extraClass="mb-20 ">
           Войти
         </Button>
-        {login ? <Redirect to="/profile" /> : <Redirect to="/login" />}
+        {/* {login ? <Redirect to="/profile" /> : <Redirect to="/login" />} */}
       </form>
       <div className={styles.logpass}>
         <div>

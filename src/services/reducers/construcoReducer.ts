@@ -14,7 +14,7 @@ type TConstructorState = {
   mains: Array<TIngredient>;
 };
 
-const constructorState: TConstructorState = {
+export const constructorState: TConstructorState = {
   buns: [],
   mains: [],
 };

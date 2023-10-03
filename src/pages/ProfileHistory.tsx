@@ -15,7 +15,7 @@ export const ProfileHistory: FC = () => {
     const token = getCookie("access");
     dispatch(WS_START_PROFILE_ACTION(token));
     return () => {
-      dispatch(WS_STOP_PROFILE_ACTION);
+      dispatch(WS_STOP_PROFILE_ACTION());
     };
   }, []);
   const profileOrders = useAppSelector((state) => {
@@ -28,7 +28,7 @@ export const ProfileHistory: FC = () => {
       <div>
         <div className={styles.historybox}>
           <div className={styles.feedscroll + " custom-scroll"}>
-            {profileOrders.map((card: any) => {
+            {profileOrders.map((card) => {
               return <Cards card={card} key={card._id} />;
             })}
           </div>

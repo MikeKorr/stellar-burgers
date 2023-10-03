@@ -36,20 +36,27 @@ export const OrderButton: FC<TOrderButton> = ({ requestId }) => {
         <p className="text text_type_digits-medium">{orderPrice}</p>
         <CurrencyIcon type="primary" />
       </div>
-      <Link
-        className={styles.order + " text text_type_main-medium"}
-        to={!login ? "/login" : "/order"}
-      >
-        <Button
-          onClick={requestId}
-          disabled={!login}
-          htmlType="button"
-          type="primary"
-          size="large"
+
+      {bunCollect.length > 0 ? (
+        <Link
+          className={styles.order + " text text_type_main-medium"}
+          to={!login ? "/login" : "/order"}
         >
+          <Button
+            onClick={requestId}
+            disabled={!login}
+            htmlType="button"
+            type="primary"
+            size="large"
+          >
+            Оформить заказ
+          </Button>
+        </Link>
+      ) : (
+        <Button disabled={true} htmlType="button" type="primary" size="large">
           Оформить заказ
         </Button>
-      </Link>
+      )}
     </div>
   );
 };

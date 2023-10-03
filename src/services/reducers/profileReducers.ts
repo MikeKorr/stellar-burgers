@@ -7,7 +7,7 @@ import {
 
 type TProfileState = TPayloadProfile;
 
-const profileState: TProfileState = {
+export const profileState: TProfileState = {
   success: false,
   user: {
     email: "",

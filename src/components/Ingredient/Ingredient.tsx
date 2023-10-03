@@ -10,7 +10,7 @@ import { useDrag } from "react-dnd";
 import { useMemo } from "react";
 import { ADD_DETAILS_ACTION, TIngredient } from "../../services/actions";
 import { useAppSelector } from "../../services/hooks/hooks";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { FC, SetStateAction, Dispatch } from "react";
 import { useAppDispatch } from "../../services/hooks/hooks";
 
@@ -82,16 +82,17 @@ const ProtoIngredient: FC<TProtoIngredient> = ({ item, setIsModalOpen }) => {
     setIsModalOpen(true);
     // changeModal("Ing");
   };
-
+  const location = useLocation();
   return (
     <div ref={dragRef} onClick={handleClick}>
       <Link
         className={styles.ingredient + " text"}
         to={{
           pathname: `/ingredients/${item._id}`,
+          state: { background: location },
         }}
       >
-        <img className="ml-4 mr-4" src={item.image} />
+        <img className="ml-4 mr-4" src={item.image} alt={item.name} />
         {counter > 0 ? (
           <Counter
             // id={item._id}

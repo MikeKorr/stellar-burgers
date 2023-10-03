@@ -21,6 +21,7 @@ import { nanoid } from "nanoid";
 export const FeedPage: FC = () => {
   const dispatch = useAppDispatch();
   const order = useAppSelector((state) => state.wsReducer.orders);
+  console.log(order, "фиид");
   const total = useAppSelector((state) => state.wsReducer.total);
   const totalToday = useAppSelector((state) => state.wsReducer.totalToday);
   const location = useLocation();
@@ -98,6 +99,7 @@ export const Cards: FC<TCards> = ({ card }) => {
   const ingredients = useAppSelector(
     (state) => state.ingredientReducer.ingredient
   );
+
   const location = useLocation();
   const cardIng = card.ingredients;
   const reduceCard = () =>
@@ -120,9 +122,10 @@ export const Cards: FC<TCards> = ({ card }) => {
       <Link
         to={{
           pathname:
-            location.pathname === "/feed"
-              ? `/feed/${card._id}`
-              : `/profile/orders/${card._id}`,
+            location.pathname === "/profile/orders"
+              ? `/profile/orders/${card._id}`
+              : `/feed/${card._id}`,
+          state: { background: location },
         }}
         className={styles.cards}
       >
@@ -139,7 +142,11 @@ export const Cards: FC<TCards> = ({ card }) => {
           <div className={styles.carding}>
             {ingResult.slice(0, 5).map((el) => (
               <div key={nanoid()} className={styles.flexbox}>
-                <img className={styles.imgcard} src={el.image_mobile} />
+                <img
+                  className={styles.imgcard}
+                  src={el.image_mobile}
+                  alt={el.name}
+                />
               </div>
             ))}
           </div>

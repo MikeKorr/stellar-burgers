@@ -1,7 +1,7 @@
 import styles from "./Pages.module.css";
 import { useCallback, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { Route } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import { userLogout } from "../services/actions/route-actions";
 import { FC } from "react";
@@ -13,6 +13,8 @@ import {
 } from "../services/actions/route-actions";
 import { getCookie } from "../utils/cookies";
 import { useAppDispatch } from "../services/hooks/hooks";
+import { useLocation } from "react-router-dom";
+import { TLocation } from "../services/types/types";
 
 export const ProfilePage: FC = () => {
   const dispatch = useAppDispatch();
@@ -20,6 +22,9 @@ export const ProfilePage: FC = () => {
   const logoutProfile = useCallback(() => {
     dispatch(userLogout());
   }, [dispatch]);
+
+  const location = useLocation<TLocation>();
+  let background = location.state && location.state.background;
 
   return (
     <div>
@@ -64,12 +69,14 @@ export const ProfilePage: FC = () => {
             </div>
           </div>
         </div>
-        <Route path="/profile" exact={true}>
-          <ProfileInfo />
-        </Route>
-        <Route path="/profile/orders" exact={true}>
-          <ProfileHistory />
-        </Route>
+        <Switch location={background || location}>
+          <Route path="/profile" exact={true}>
+            <ProfileInfo />
+          </Route>
+          <Route path="/profile/orders" exact={true}>
+            <ProfileHistory />
+          </Route>
+        </Switch>
       </div>
     </div>
   );

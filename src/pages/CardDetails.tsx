@@ -8,7 +8,10 @@ import { useLocation } from "react-router-dom";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { FormattedDate } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useAppSelector, useAppDispatch } from "../services/hooks/hooks";
-import { WS_START_ACTION } from "../services/actions/route-actions";
+import {
+  WS_START_ACTION,
+  WS_STOP_ACTION,
+} from "../services/actions/route-actions";
 
 export const CardDetails: FC = () => {
   const location = useLocation();
@@ -43,6 +46,9 @@ export const CardDetails: FC = () => {
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(WS_START_ACTION());
+    return () => {
+      dispatch(WS_STOP_ACTION());
+    };
   }, []);
 
   return (
@@ -65,7 +71,11 @@ export const CardDetails: FC = () => {
             detailArr.map((el) => {
               return (
                 <div key={el._id} className={styles.detscrollbox}>
-                  <img className={styles.imgcard} src={el.image_mobile} />
+                  <img
+                    className={styles.imgcard}
+                    src={el.image_mobile}
+                    alt={el.name}
+                  />
                   <div
                     className={
                       styles.detName + " text text_type_main-default ml-6"

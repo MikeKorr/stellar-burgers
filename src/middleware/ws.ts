@@ -1,7 +1,5 @@
 import { Middleware } from "redux";
 import { TMiddlewareActions } from "../services/actions/route-actions";
-import { MiddlewareAPI } from "redux";
-import { AppDispatch, RootState } from "../services/hooks/hooks";
 
 export const wsUrl: string = "wss://norma.nomoreparties.space/orders/all";
 export const ordersUrl: string = "wss://norma.nomoreparties.space/orders";
@@ -10,7 +8,7 @@ export const socketMiddleware = (
   url: string,
   actions: TMiddlewareActions
 ): Middleware => {
-  return (store: MiddlewareAPI<AppDispatch, RootState>) => {
+  return (store) => {
     let socket: WebSocket | null = null;
     return (next) => {
       return (action) => {

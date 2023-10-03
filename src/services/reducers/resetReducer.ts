@@ -4,7 +4,7 @@ type TResetState = {
   success: boolean;
 };
 
-const resetState: TResetState = {
+export const resetState: TResetState = {
   success: false,
 };
 
