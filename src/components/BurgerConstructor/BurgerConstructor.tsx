@@ -61,7 +61,7 @@ export const BurgerConstructor: FC<TBurgerConstructor> = ({
   };
 
   return (
-    <div ref={dropIng}>
+    <div ref={dropIng} data-testid="dropIng">
       <div className={styles.const + " mb-4 mt-4"}>
         {bunCollect.map((item: TIngredient) => {
           if (item.type === "bun")
@@ -85,13 +85,15 @@ export const BurgerConstructor: FC<TBurgerConstructor> = ({
         {mainCollect.map((item: TIngredient, index: number) => {
           if (item.type !== "bun") {
             return (
-              <BurgerConstElement
-                elem={item}
-                index={index}
-                id={item.id}
-                key={item.id}
-                delElem={delElem}
-              />
+              <div data-testid="delElem">
+                <BurgerConstElement
+                  elem={item}
+                  index={index}
+                  id={item.id}
+                  key={item.id}
+                  delElem={delElem}
+                />
+              </div>
             );
           }
         })}
@@ -181,6 +183,7 @@ const BurgerConstElement: FC<TBurgerConstElement> = ({
   return (
     <div className={styles.ing} ref={ref} key={elem.id}>
       <DragIcon type="primary" />
+
       <ConstructorElement
         text={elem.name}
         price={elem.price}

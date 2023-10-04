@@ -11,7 +11,7 @@ export function IngredientsDetails() {
   console.log(ing, "информация для тестов");
 
   return (
-    <div className={styles.boxIng + " mt-30 mb-30"} data-testid="ing">
+    <div className={styles.box + " mt-30 mb-30"}>
       <div className={styles.title}>
         <p className=" text text_type_main-large">Детали ингредиента</p>
       </div>

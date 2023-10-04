@@ -24,15 +24,13 @@ export const FeedPage: FC = () => {
   console.log(order, "фиид");
   const total = useAppSelector((state) => state.wsReducer.total);
   const totalToday = useAppSelector((state) => state.wsReducer.totalToday);
-  const location = useLocation();
+  // const location = useLocation();
   useEffect(() => {
-    if (location.pathname !== "/feed") {
+    dispatch(WS_START_ACTION());
+    return () => {
       dispatch(WS_STOP_ACTION());
-    } else {
-      dispatch(WS_START_ACTION());
-      return () => {};
-    }
-  }, [location, dispatch]);
+    };
+  }, [dispatch]);
 
   return (
     order && (

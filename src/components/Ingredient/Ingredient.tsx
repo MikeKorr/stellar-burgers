@@ -84,7 +84,12 @@ const ProtoIngredient: FC<TProtoIngredient> = ({ item, setIsModalOpen }) => {
   };
   const location = useLocation();
   return (
-    <div ref={dragRef} onClick={handleClick}>
+    <div
+      ref={dragRef}
+      onClick={handleClick}
+      data-testid="ingttt"
+      className={styles.testId}
+    >
       <Link
         className={styles.ingredient + " text"}
         to={{
