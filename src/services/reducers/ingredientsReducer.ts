@@ -2,15 +2,17 @@ import { SET_INGREDIENTS, SET_ITEM, TIngredient } from "../actions";
 import { TUnionActions } from "../actions/route-actions";
 
 type TInitialState = {
-  ingredient: Array<TIngredient>;
-  item: {
-    image_large?: string;
-    name?: string;
-    calories?: number;
-    proteins?: number;
-    fat?: number;
-    carbohydrates?: number;
-  };
+  ingredient: Array<TIngredient> | [];
+  item:
+    | {
+        image_large?: string;
+        name?: string;
+        calories?: number;
+        proteins?: number;
+        fat?: number;
+        carbohydrates?: number;
+      }
+    | TIngredient;
 };
 
 const initialState: TInitialState = {

@@ -9,15 +9,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { useDrag } from "react-dnd";
 import { useMemo } from "react";
 import { ADD_DETAILS_ACTION, TIngredient } from "../../services/actions";
-import PropTypes from "prop-types";
-import { ingItem } from "../../utils/prop-types";
+import { useAppSelector } from "../../services/hooks/hooks";
 import { Link } from "react-router-dom";
-import { FC } from "react";
+import { FC, SetStateAction, Dispatch } from "react";
+import { useAppDispatch } from "../../services/hooks/hooks";
 
 type TIngredientList = {
   type: string;
   ingType: string;
-  setIsModalOpen: () => void;
+  setIsModalOpen: Dispatch<SetStateAction<boolean>>;
 };
 
 export const IngredientList: FC<TIngredientList> = ({
@@ -25,8 +25,8 @@ export const IngredientList: FC<TIngredientList> = ({
   ingType,
   setIsModalOpen,
 }) => {
-  const ingredients = useSelector(
-    (state: any) => state.ingredientReducer.ingredient
+  const ingredients = useAppSelector(
+    (state) => state.ingredientReducer.ingredient
   );
   return (
     <>
@@ -55,8 +55,8 @@ type TProtoIngredient = {
 };
 
 const ProtoIngredient: FC<TProtoIngredient> = ({ item, setIsModalOpen }) => {
-  const main = useSelector((state: any) => state.constructorReducer.mains);
-  const buns = useSelector((state: any) => state.constructorReducer.buns);
+  const main = useAppSelector((state) => state.constructorReducer.mains);
+  const buns = useAppSelector((state) => state.constructorReducer.buns);
 
   const counter = useMemo(
     () =>
@@ -76,7 +76,7 @@ const ProtoIngredient: FC<TProtoIngredient> = ({ item, setIsModalOpen }) => {
     },
     []
   );
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const handleClick = () => {
     dispatch(ADD_DETAILS_ACTION(item));
     setIsModalOpen(true);
@@ -113,9 +113,3 @@ const ProtoIngredient: FC<TProtoIngredient> = ({ item, setIsModalOpen }) => {
     </div>
   );
 };
-
-// ProtoIngredient.propTypes = {
-//   item: ingItem.isRequired,
-//   setIsModalOpen: PropTypes.func.isRequired,
-//   changeModal: PropTypes.func.isRequired,
-// };

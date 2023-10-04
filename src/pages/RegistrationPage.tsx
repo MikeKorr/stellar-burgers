@@ -9,10 +9,11 @@ import { Link, Redirect } from "react-router-dom";
 import { userReg } from "../services/actions/route-actions";
 import { useState } from "react";
 import { FormEventHandler } from "react";
+import { useAppSelector, useAppDispatch } from "../services/hooks/hooks";
 
 export function RegistrationPage() {
-  const dispatch = useDispatch();
-  const login = useSelector((state: any) => state.registrationReducer.success);
+  const dispatch = useAppDispatch();
+  const login = useAppSelector((state) => state.registrationReducer.success);
   const registrationForm: FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
     const user = {

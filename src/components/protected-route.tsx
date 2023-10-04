@@ -1,10 +1,11 @@
 import { Route, Redirect, RouteProps, useLocation } from "react-router-dom";
 import { FC } from "react";
 import { useSelector } from "react-redux";
+import { useAppSelector } from "../services/hooks/hooks";
 type TRProtectedRoute = RouteProps;
 
 export const ProtectedRoute: FC<TRProtectedRoute> = ({ children }) => {
-  const login = useSelector((state: any) => state.loginReducer.login);
+  const login = useAppSelector((state) => state.loginReducer.login);
   const location = useLocation();
   return (
     <Route>
@@ -12,11 +13,7 @@ export const ProtectedRoute: FC<TRProtectedRoute> = ({ children }) => {
         ? children
         : (
             <Redirect to={{ pathname: "/login", state: { from: location } }} />
-          ) || (
-            <Redirect
-              to={{ pathname: "/profile", state: { from: location } }}
-            />
-          )}
+          ) || <Redirect to={{ pathname: "/", state: { from: location } }} />}
     </Route>
   );
 };

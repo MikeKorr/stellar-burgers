@@ -7,10 +7,11 @@ import {
   Input,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+import { useAppSelector, useAppDispatch } from "../services/hooks/hooks";
 
 export function ForgotPass() {
-  const dispatch = useDispatch();
-  const success = useSelector((state: any) => state.forgotpassReducer.success);
+  const dispatch = useAppDispatch();
+  const success = useAppSelector((state) => state.forgotpassReducer.success);
 
   const [value, setValue] = useState("");
 

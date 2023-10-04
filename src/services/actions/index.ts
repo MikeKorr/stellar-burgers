@@ -1,6 +1,9 @@
 import { request } from "../../utils/api";
 import { baseUrl } from "../../utils/api";
 import { checkResponse } from "../../utils/api";
+import { Dispatch } from "react";
+import { getCookie } from "../../utils/cookies";
+import { ThunkFunc } from "../hooks/hooks";
 
 export type TIngredient = {
   _id: string;
@@ -16,6 +19,7 @@ export type TIngredient = {
   image_large: string;
   __v: number;
   id?: string;
+  key?: string;
 };
 
 export const SET_INGREDIENTS = "SET_INGREDIENTS";
@@ -27,12 +31,10 @@ export interface ISET_INGREDIENTS_ACTION {
 
 export const SET_INGREDIENTS_ACTION = (
   payload: Array<TIngredient>
-): ISET_INGREDIENTS_ACTION => {
-  return {
-    type: SET_INGREDIENTS,
-    payload: payload,
-  };
-};
+): ISET_INGREDIENTS_ACTION => ({
+  type: SET_INGREDIENTS,
+  payload: payload,
+});
 
 export type TIngAction = ISET_INGREDIENTS_ACTION;
 
@@ -45,12 +47,10 @@ export interface ISET_ITEM_ACTION {
   readonly payload: TIngredient;
 }
 
-export const SET_ITEM_ACTION = (payload: TIngredient): ISET_ITEM_ACTION => {
-  return {
-    type: SET_ITEM,
-    payload: payload,
-  };
-};
+export const SET_ITEM_ACTION = (payload: TIngredient): ISET_ITEM_ACTION => ({
+  type: SET_ITEM,
+  payload: payload,
+});
 
 // TAB
 export const SET_TAB = "SET_TAB";
@@ -198,16 +198,19 @@ export const GET_ORDER_REQUEST_ACTION = (): IGET_ORDER_REQUEST_ACTION => ({
   type: GET_ORDER_REQUEST,
 });
 
-export const getOrder = (id: string[]) => {
+export const getOrder: ThunkFunc = (id: string[]) => {
   const orderUrl = `${baseUrl}/orders`;
   const options = {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      authorization: "Bearer " + getCookie("access"),
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify({
       ingredients: id,
     }),
   };
-  return (dispatch: any) => {
+  return (dispatch) => {
     request(orderUrl, options)
       .then(({ success, order: { number } }) => {
         if (success) {
@@ -219,10 +222,10 @@ export const getOrder = (id: string[]) => {
   };
 };
 
-export const getIngElements = () => {
-  return (dispatch: any) => {
-    return fetch(baseUrl + "/ingredients")
-      .then(checkResponse)
+export const getIngElements: ThunkFunc = () => {
+  const ingUrl = `${baseUrl}/ingredients`;
+  return (dispatch) => {
+    request(ingUrl)
       .then((data) => {
         dispatch(SET_INGREDIENTS_ACTION(data.data));
       })

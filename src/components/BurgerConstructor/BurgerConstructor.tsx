@@ -4,7 +4,6 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./BurgerConstructor.module.css";
 import { useDrag, useDrop } from "react-dnd";
-
 import { useDispatch, useSelector } from "react-redux";
 import { SET_BUN_ACTION, DEL_ING_ACTION } from "../../services/actions";
 import { ADD_ING_ACTION, DND_ING_ACTION } from "../../services/actions";
@@ -12,16 +11,10 @@ import { nanoid } from "nanoid";
 import { useRef } from "react";
 import { OrderButton } from "../OrderButton/OrderButton";
 import { getOrder } from "../../services/actions";
-import { useMemo } from "react";
-import PropTypes, { number } from "prop-types";
-import { ingItem } from "../../utils/prop-types";
-import { Redirect } from "react-router-dom";
-import { FC } from "react";
+import { useAppDispatch } from "../../services/hooks/hooks";
+import { FC, SetStateAction, Dispatch } from "react";
 import { TIngredient } from "../../services/actions";
-
-type TBurgerConstructor = {
-  changeModal: () => void;
-};
+import { useAppSelector } from "../../services/hooks/hooks";
 
 type TIng = {
   id: string;
@@ -29,13 +22,16 @@ type TIng = {
   type: string;
 };
 
-export const BurgerConstructor: FC<TBurgerConstructor> = ({ changeModal }) => {
-  const login = useSelector((state: any) => state.loginReducer.login);
-  const dispatch = useDispatch();
-  const mainCollect = useSelector(
-    (state: any) => state.constructorReducer.mains
-  );
-  const bunCollect = useSelector((state: any) => state.constructorReducer.buns);
+type TBurgerConstructor = {
+  setIsModalOpen: Dispatch<SetStateAction<boolean>>;
+};
+
+export const BurgerConstructor: FC<TBurgerConstructor> = ({
+  setIsModalOpen,
+}) => {
+  const dispatch = useAppDispatch();
+  const mainCollect = useAppSelector((state) => state.constructorReducer.mains);
+  const bunCollect = useAppSelector((state) => state.constructorReducer.buns);
   const [, dropIng] = useDrop(() => ({
     accept: "ingredient",
     drop: (item: TIng) => newCardElement(item.item),
@@ -51,22 +47,19 @@ export const BurgerConstructor: FC<TBurgerConstructor> = ({ changeModal }) => {
     }
   };
 
-  const ordId = useMemo(() => {
-    return bunCollect.map((el: TIngredient) => el._id);
-  }, [bunCollect]);
+  const mainId = mainCollect.map((el: any) => el._id);
+  const bunId = bunCollect.map((el: any) => el._id);
+  const ordId = bunId.concat(mainId).concat(bunId);
 
   const requestId = () => {
     dispatch(getOrder(ordId));
+    setIsModalOpen(true);
   };
 
   const delElem = (item: TIngredient) => {
     dispatch(DEL_ING_ACTION(item));
   };
 
-  const [, dropConst] = useDrop(() => ({
-    accept: "elem",
-    drop: (item: TIng) => newCardElement(item.item),
-  }));
   return (
     <div ref={dropIng}>
       <div className={styles.const + " mb-4 mt-4"}>
@@ -88,7 +81,7 @@ export const BurgerConstructor: FC<TBurgerConstructor> = ({ changeModal }) => {
             );
         })}
       </div>
-      <div className={styles.main + " custom-scroll"} ref={dropConst}>
+      <div className={styles.main + " custom-scroll"}>
         {mainCollect.map((item: TIngredient, index: number) => {
           if (item.type !== "bun") {
             return (
@@ -125,18 +118,7 @@ export const BurgerConstructor: FC<TBurgerConstructor> = ({ changeModal }) => {
         </div>
       </div>
 
-      <div
-        className={styles.order}
-        onClick={() => {
-          // changeModal("Order");
-          requestId();
-          if (!login) {
-            return <Redirect to={"/login"} />;
-          }
-        }}
-      >
-        <OrderButton />
-      </div>
+      <OrderButton requestId={requestId} />
     </div>
   );
 };
@@ -155,7 +137,7 @@ const BurgerConstElement: FC<TBurgerConstElement> = ({
   index,
 }) => {
   const ref = useRef(null);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const changeCardPosition = (drag: number, drop: number) => {
     dispatch(DND_ING_ACTION(drag, drop));
   };
@@ -209,14 +191,3 @@ const BurgerConstElement: FC<TBurgerConstElement> = ({
     </div>
   );
 };
-
-// BurgerConstElement.propTypes = {
-//   elem: ingItem.isRequired,
-//   delElem: PropTypes.func.isRequired,
-//   id: PropTypes.string.isRequired,
-//   index: PropTypes.number.isRequired,
-// };
-
-// BurgerConstructor.propTypes = {
-//   changeModal: PropTypes.func.isRequired,
-// };

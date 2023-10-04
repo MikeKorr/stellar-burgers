@@ -12,8 +12,7 @@ import { FC } from "react";
 export const Header: FC = () => {
   const login: boolean = useSelector((state: any) => state.loginReducer.login);
   const location = useLocation();
-  // const activeChanger = (activeStyle: boolean) =>
-  //   `${styles.link}${(activeStyle && ` ${styles.activelink}`) || ""}`;
+
   console.log(location, "здесь");
   return (
     <div className={styles.position + " text text_type_main-default"}>
@@ -33,9 +32,9 @@ export const Header: FC = () => {
         </NavLink>
 
         <NavLink
-          to="#"
+          to="/feed"
           className={
-            location.pathname === "#"
+            location.pathname === "/feed"
               ? `${styles.activelink} text text_type_main-default p-5`
               : `${styles.disablelink} text text_type_main-default p-5`
           }
