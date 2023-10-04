@@ -6,13 +6,13 @@ type TScroll = {
   scroll: string;
 };
 
-const scroll: TScroll = {
+export const scrollState: TScroll = {
   current: "",
   scroll: "",
 };
 
 export const scrollReducer = (
-  state = scroll,
+  state = scrollState,
   action: TUnionActions
 ): TScroll => {
   switch (action.type) {

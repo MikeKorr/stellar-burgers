@@ -1,15 +1,18 @@
 import styles from "./Pages.module.css";
-import { FC, useMemo } from "react";
+import { FC, useEffect, useMemo } from "react";
 
 import { useParams } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { FormattedDate } from "@ya.praktikum/react-developer-burger-ui-components";
-
 import { useAppSelector, useAppDispatch } from "../services/hooks/hooks";
+import {
+  WS_START_PROFILE_ACTION,
+  WS_STOP_PROFILE_ACTION,
+} from "../services/actions/route-actions";
+import { getCookie } from "../utils/cookies";
 
 export const CardProfileDetails: FC = () => {
-  const dispatch = useAppDispatch();
   const location = useLocation();
   console.log(location.pathname, "локация");
 
@@ -39,8 +42,12 @@ export const CardProfileDetails: FC = () => {
     (acc: any, item: any) => acc + item.price,
     0
   );
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    const token = getCookie("access");
+    dispatch(WS_START_PROFILE_ACTION(token));
+  }, []);
 
-  // console.log(detailIngs, "инг");
   return (
     <div className={styles.detailbox}>
       <div className={styles.detailtitle}>
@@ -61,7 +68,11 @@ export const CardProfileDetails: FC = () => {
             detailArr.map((el) => {
               return (
                 <div key={el._id} className={styles.detscrollbox}>
-                  <img className={styles.imgcard} src={el.image_mobile} />
+                  <img
+                    className={styles.imgcard}
+                    src={el.image_mobile}
+                    alt={el.name}
+                  />
                   <div
                     className={
                       styles.detName + " text text_type_main-default ml-6"
@@ -84,7 +95,7 @@ export const CardProfileDetails: FC = () => {
         </div>
       </div>
       <div className={styles.dataprice + " mt-10"}>
-        <FormattedDate date={new Date(orderData.createdAt)} />
+        <FormattedDate date={new Date(orderData?.createdAt)} />
         <div className={styles.dcenter}>
           <div className="text text_type_digits-default mr-2">
             {reducePrice}

@@ -5,7 +5,7 @@ type TUserState = {
   logout: boolean;
 };
 
-const userState = {
+export const userState = {
   login: false,
   logout: false,
 };

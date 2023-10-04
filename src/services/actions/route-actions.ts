@@ -1,9 +1,9 @@
 import { baseUrl, request } from "../../utils/api";
 import { delCookie, getCookie, setCookie } from "../../utils/cookies";
-import { Dispatch } from "react";
+
 import {
   ISET_INGREDIENTS_ACTION,
-  ISET_ITEM_ACTION,
+  // ISET_ITEM_ACTION,
   ISET_TAB_ACTION,
   ISCROLL_ING_ACTION,
   ISET_BUN_ACTION,
@@ -13,7 +13,6 @@ import {
   ICLEAR_CONSTRUCTOR_ACTION,
   IADD_DETAILS_ACTION,
   IDEL_DETAILS_ACTION,
-  IGET_ORDER_REQUEST_ACTION,
   IGET_ORDER_DONE_ACTION,
 } from ".";
 import { TOrderComponents } from "../types/types";
@@ -41,12 +40,16 @@ interface IPATCH_INFO_ACTION {
   readonly payload: TPayloadProfile;
 }
 
-const GET_INFO_ACTION = (payload: TPayloadProfile): IGET_INFO_ACTION => ({
+export const GET_INFO_ACTION = (
+  payload: TPayloadProfile
+): IGET_INFO_ACTION => ({
   type: GET_PROFILE_INFO,
   payload,
 });
 
-const PATCH_INFO_ACTION = (payload: TPayloadProfile): IPATCH_INFO_ACTION => ({
+export const PATCH_INFO_ACTION = (
+  payload: TPayloadProfile
+): IPATCH_INFO_ACTION => ({
   type: PATCH_PROFILE_INFO,
   payload,
 });
@@ -204,7 +207,9 @@ interface IUSER_REG_ACTION {
   readonly payload: TPayloadRegister;
 }
 
-const USER_REG_ACTION = (payload: TPayloadRegister): IUSER_REG_ACTION => ({
+export const USER_REG_ACTION = (
+  payload: TPayloadRegister
+): IUSER_REG_ACTION => ({
   type: USER_REG,
   payload: payload,
 });
@@ -275,7 +280,7 @@ interface IRESET_PASS_ACTION {
   payload: boolean;
 }
 
-const RESET_PASS_ACTION = (payload: boolean): IRESET_PASS_ACTION => ({
+export const RESET_PASS_ACTION = (payload: boolean): IRESET_PASS_ACTION => ({
   type: RESET_PASS,
   payload: payload,
 });
@@ -310,7 +315,7 @@ export type TUnionActions =
   | IGET_PASS_ACTION
   | IRESET_PASS_ACTION
   | ISET_INGREDIENTS_ACTION
-  | ISET_ITEM_ACTION
+  // | ISET_ITEM_ACTION
   | ISET_TAB_ACTION
   | ISCROLL_ING_ACTION
   | ISET_BUN_ACTION
@@ -320,7 +325,6 @@ export type TUnionActions =
   | ICLEAR_CONSTRUCTOR_ACTION
   | IADD_DETAILS_ACTION
   | IDEL_DETAILS_ACTION
-  | IGET_ORDER_REQUEST_ACTION
   | IGET_ORDER_DONE_ACTION
   | TUnionWsActions
   | TUnionWsProfileActions;

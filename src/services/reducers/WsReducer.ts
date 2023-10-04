@@ -15,7 +15,7 @@ type TWsState = {
   orders: Array<TOrderComponents> | [];
 };
 
-const wsState: TWsState = {
+export const wsState: TWsState = {
   success: false,
   total: null,
   totalToday: null,

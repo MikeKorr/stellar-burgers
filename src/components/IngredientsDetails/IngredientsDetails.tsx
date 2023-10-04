@@ -8,6 +8,7 @@ export function IngredientsDetails() {
   );
   const { id } = useParams<{ id: string }>();
   const ing = ingredients.find((el: any) => el._id === id);
+  console.log(ing, "информация для тестов");
 
   return (
     <div className={styles.box + " mt-30 mb-30"}>

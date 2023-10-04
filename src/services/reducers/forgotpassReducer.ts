@@ -4,7 +4,7 @@ type TForgotpassState = {
   success: boolean;
 };
 
-const forgotpassState: TForgotpassState = {
+export const forgotpassState: TForgotpassState = {
   success: false,
 };
 

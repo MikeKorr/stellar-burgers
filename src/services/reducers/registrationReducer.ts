@@ -6,7 +6,7 @@ import {
 
 type TRegState = TPayloadRegister;
 
-const regState: TRegState = {
+export const regState: TRegState = {
   success: false,
   user: {},
 };

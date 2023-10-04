@@ -32,7 +32,6 @@ import { useAppDispatch } from "../../services/hooks/hooks";
 const App: FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const dispatch = useAppDispatch();
-  // const [itemModal, setItemModal] = useState("");
 
   useEffect(() => {
     dispatch(getIngElements());
@@ -53,19 +52,14 @@ const App: FC = () => {
         <Route path="/ingredients/:id">
           <IngPage />
         </Route>
-
         <Route path="/feed" exact={true}>
           <FeedPage />
         </Route>
-        <Route path="/feed/:id" exact={true}>
-          <Modal closePopup={() => setIsModalOpen(false)}>
-            <CardDetails />
-          </Modal>
+        <Route path="/feed/:id">
+          <CardDetails />
         </Route>
-        <Route path="/profile/orders/:id" exact={true}>
-          <Modal closePopup={() => setIsModalOpen(false)}>
-            <CardProfileDetails />
-          </Modal>
+        <Route path="/profile/orders/:id">
+          <CardProfileDetails />
         </Route>
 
         <Route path="/order">
@@ -93,12 +87,24 @@ const App: FC = () => {
         </Route>
       </Switch>
 
-      {isModalOpen && (
-        <Route path="/ingredients/:id">
-          <Modal closePopup={() => setIsModalOpen(false)}>
-            <IngredientsDetails />
-          </Modal>
-        </Route>
+      {background && (
+        <Switch>
+          <Route path="/ingredients/:id">
+            <Modal closePopup={() => setIsModalOpen(false)}>
+              <IngredientsDetails />
+            </Modal>
+          </Route>
+          <Route path="/profile/orders/:id">
+            <Modal closePopup={() => setIsModalOpen(false)}>
+              <CardProfileDetails />
+            </Modal>
+          </Route>
+          <Route path="/feed/:id">
+            <Modal closePopup={() => setIsModalOpen(false)}>
+              <CardDetails />
+            </Modal>
+          </Route>
+        </Switch>
       )}
     </div>
   );

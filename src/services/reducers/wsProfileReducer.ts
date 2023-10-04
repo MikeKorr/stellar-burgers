@@ -12,7 +12,7 @@ type TWsProfileState = {
   orders: Array<TOrderComponents> | [];
 };
 
-const wsProfileState: TWsProfileState = {
+export const wsProfileState: TWsProfileState = {
   success: false,
   orders: [],
 };

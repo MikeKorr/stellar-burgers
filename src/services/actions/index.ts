@@ -40,17 +40,17 @@ export type TIngAction = ISET_INGREDIENTS_ACTION;
 
 //items
 
-export const SET_ITEM = "SET_ITEM";
+// export const SET_ITEM = "SET_ITEM";
 
-export interface ISET_ITEM_ACTION {
-  readonly type: typeof SET_ITEM;
-  readonly payload: TIngredient;
-}
+// export interface ISET_ITEM_ACTION {
+//   readonly type: typeof SET_ITEM;
+//   readonly payload: TIngredient;
+// }
 
-export const SET_ITEM_ACTION = (payload: TIngredient): ISET_ITEM_ACTION => ({
-  type: SET_ITEM,
-  payload: payload,
-});
+// export const SET_ITEM_ACTION = (payload: TIngredient): ISET_ITEM_ACTION => ({
+//   type: SET_ITEM,
+//   payload: payload,
+// });
 
 // TAB
 export const SET_TAB = "SET_TAB";
@@ -81,8 +81,6 @@ export const SCROLL_ING_ACTION = (item: string): ISCROLL_ING_ACTION => ({
 // export const GET_ING_REQUEST = "GET_ING_REQUEST";
 // export const GET_ING_ERR = "GET_ING_ERR";
 // export const GET_ING_DONE = "GET_ING_DONE";
-
-// export function getIngs() {}
 
 //BURGER CONSTRUCTOR
 export const SET_BUN = "SET_BUN";
@@ -176,12 +174,6 @@ export const DEL_DETAILS_ACTION = (): IDEL_DETAILS_ACTION => ({
 
 //ORDERS
 
-export const GET_ORDER_REQUEST = "GET_ORDER_REQUEST";
-
-export interface IGET_ORDER_REQUEST_ACTION {
-  readonly type: typeof GET_ORDER_REQUEST;
-}
-
 export const GET_ORDER_DONE = "GET_ORDER_DONE";
 
 export interface IGET_ORDER_DONE_ACTION {
@@ -192,10 +184,6 @@ export interface IGET_ORDER_DONE_ACTION {
 export const GET_ORDER_DONE_ACTION = (id: string): IGET_ORDER_DONE_ACTION => ({
   type: GET_ORDER_DONE,
   payload: id,
-});
-
-export const GET_ORDER_REQUEST_ACTION = (): IGET_ORDER_REQUEST_ACTION => ({
-  type: GET_ORDER_REQUEST,
 });
 
 export const getOrder: ThunkFunc = (id: string[]) => {
