@@ -1,9 +1,6 @@
 {
   "name": "react-burger-starter",
-  "repository": {
-    "url": "git+https://github.com/MikeKorr/stellar-burgers.git/",
-    "type": "git"
-  },
+  "homepage": "https://mikekorr.github.io/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
