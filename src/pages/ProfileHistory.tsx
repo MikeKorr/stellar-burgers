@@ -1,5 +1,5 @@
 import styles from "./Pages.module.css";
-import { useSelector } from "react-redux";
+
 import { Cards } from "./FeedPage";
 import { useAppSelector, useAppDispatch } from "../services/hooks/hooks";
 import {

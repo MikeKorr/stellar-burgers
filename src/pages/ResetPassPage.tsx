@@ -5,7 +5,7 @@ import {
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link, Redirect } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+
 import { resetPassAction } from "../services/actions/route-actions";
 import { useEffect, useState, FormEventHandler, EffectCallback } from "react";
 import { GET_PASS_ACTION } from "../services/actions/route-actions";

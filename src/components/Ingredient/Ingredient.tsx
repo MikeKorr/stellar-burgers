@@ -4,8 +4,6 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./Ingredient.module.css";
 
-import { useDispatch, useSelector } from "react-redux";
-
 import { useDrag } from "react-dnd";
 import { useMemo } from "react";
 import { ADD_DETAILS_ACTION, TIngredient } from "../../services/actions";

@@ -1,6 +1,6 @@
 import styles from "./BurgerIngredients.module.css";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useDispatch, useSelector } from "react-redux";
+
 import { useEffect, useRef } from "react";
 import { SET_TAB_ACTION, SCROLL_ING_ACTION } from "../../services/actions";
 import { IngredientList } from "../Ingredient/Ingredient";

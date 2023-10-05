@@ -1,6 +1,6 @@
 import { Route, Redirect, RouteProps, useLocation } from "react-router-dom";
 import { FC } from "react";
-import { useSelector } from "react-redux";
+
 import { useAppSelector } from "../services/hooks/hooks";
 type TRProtectedRoute = RouteProps;
 
