@@ -4,7 +4,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./BurgerConstructor.module.css";
 import { useDrag, useDrop } from "react-dnd";
-import { useDispatch, useSelector } from "react-redux";
+
 import { SET_BUN_ACTION, DEL_ING_ACTION } from "../../services/actions";
 import { ADD_ING_ACTION, DND_ING_ACTION } from "../../services/actions";
 import { nanoid } from "nanoid";
@@ -47,8 +47,8 @@ export const BurgerConstructor: FC<TBurgerConstructor> = ({
     }
   };
 
-  const mainId = mainCollect.map((el: any) => el._id);
-  const bunId = bunCollect.map((el: any) => el._id);
+  const mainId = mainCollect.map((el) => el._id);
+  const bunId = bunCollect.map((el) => el._id);
   const ordId = bunId.concat(mainId).concat(bunId);
 
   const requestId = () => {
@@ -85,7 +85,7 @@ export const BurgerConstructor: FC<TBurgerConstructor> = ({
         {mainCollect.map((item: TIngredient, index: number) => {
           if (item.type !== "bun") {
             return (
-              <div data-testid="delElem">
+              <div key={item.id} data-testid="delElem">
                 <BurgerConstElement
                   elem={item}
                   index={index}

@@ -6,11 +6,11 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./Header.module.css";
 import { NavLink, useLocation } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "../../../services/hooks/hooks";
 import { FC } from "react";
 
 export const Header: FC = () => {
-  const login: boolean = useSelector((state: any) => state.loginReducer.login);
+  const login: boolean = useAppSelector((state) => state.loginReducer.login);
   const location = useLocation();
 
   console.log(location, "здесь");

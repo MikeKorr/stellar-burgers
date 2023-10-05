@@ -1,7 +1,7 @@
 import styles from "./Pages.module.css";
-import { useDispatch, useSelector } from "react-redux";
+
 import { getForgotPass } from "../services/actions/route-actions";
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback } from "react";
 import { Link, Redirect } from "react-router-dom";
 import {
   Input,

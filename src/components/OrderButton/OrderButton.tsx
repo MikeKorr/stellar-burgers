@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { useDispatch, useSelector } from "react-redux";
+
 import styles from "./OrderButton.module.css";
 import {
   Button,

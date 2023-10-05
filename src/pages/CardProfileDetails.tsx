@@ -6,27 +6,32 @@ import { useLocation } from "react-router-dom";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { FormattedDate } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useAppSelector, useAppDispatch } from "../services/hooks/hooks";
-import {
-  WS_START_PROFILE_ACTION,
-  WS_STOP_PROFILE_ACTION,
-} from "../services/actions/route-actions";
+import { WS_START_PROFILE_ACTION } from "../services/actions/route-actions";
 import { getCookie } from "../utils/cookies";
 
 export const CardProfileDetails: FC = () => {
   const location = useLocation();
   console.log(location.pathname, "локация");
-
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    const token = getCookie("access");
+    dispatch(WS_START_PROFILE_ACTION(token));
+  }, []);
   const ingredients = useAppSelector(
     (state) => state.ingredientReducer.ingredient
   );
 
-  const data = useAppSelector((state: any) => state.wsProfileReducer.orders);
+  const data = useAppSelector((state) => state.wsProfileReducer.orders);
 
   const { id } = useParams<{ id: string }>();
 
   const orderData = useMemo(() => {
-    return data.find((el: any) => el._id === id);
+    return data.find((el) => el._id === id);
   }, [data, id]);
+
+  if (!orderData) {
+    return null;
+  }
 
   const detailArrs = () => {
     return ingredients.filter((el) => orderData?.ingredients.includes(el._id));
@@ -34,19 +39,11 @@ export const CardProfileDetails: FC = () => {
 
   const detailArr = detailArrs();
 
-  const ordPrice = orderData?.ingredients.map((el: any) => {
+  const ordPrice = orderData?.ingredients.map((el) => {
     return ingredients.find((elem) => elem._id === el);
   });
 
-  const reducePrice = ordPrice?.reduce(
-    (acc: any, item: any) => acc + item.price,
-    0
-  );
-  const dispatch = useAppDispatch();
-  useEffect(() => {
-    const token = getCookie("access");
-    dispatch(WS_START_PROFILE_ACTION(token));
-  }, []);
+  const reducePrice = ordPrice?.reduce((acc, item: any) => acc + item.price, 0);
 
   return (
     <div className={styles.detailbox}>
@@ -85,7 +82,7 @@ export const CardProfileDetails: FC = () => {
                       styles.detgrow + " text text_type_digits-default mr-2"
                     }
                   >
-                    {ordPrice?.filter((it: any) => it._id === el._id).length}x
+                    {ordPrice?.filter((it) => it?._id === el._id).length}x
                     {el.price}
                   </div>
                   <CurrencyIcon type="primary" />

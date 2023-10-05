@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { useDispatch, useSelector } from "react-redux";
+
 import styles from "./Pages.module.css";
 import { TOrderComponents } from "../services/types/types";
 import { Link, useLocation } from "react-router-dom";
@@ -11,7 +11,6 @@ import {
 import { useEffect } from "react";
 import {
   WS_START_ACTION,
-  WS_START_PROFILE_ACTION,
   WS_STOP_ACTION,
 } from "../services/actions/route-actions";
 

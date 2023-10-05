@@ -1,17 +1,13 @@
 import styles from "./Pages.module.css";
-import { useCallback, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useCallback } from "react";
+
 import { Route, Switch } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import { userLogout } from "../services/actions/route-actions";
 import { FC } from "react";
 import { ProfileInfo } from "./ProfileInfo";
 import { ProfileHistory } from "./ProfileHistory";
-import {
-  WS_START_ACTION,
-  WS_START_PROFILE_ACTION,
-} from "../services/actions/route-actions";
-import { getCookie } from "../utils/cookies";
+
 import { useAppDispatch } from "../services/hooks/hooks";
 import { useLocation } from "react-router-dom";
 import { TLocation } from "../services/types/types";

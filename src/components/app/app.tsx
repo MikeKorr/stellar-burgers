@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { Modal } from "../Modal/Modal";
 import { IngredientsDetails } from "../IngredientsDetails/IngredientsDetails";
 import { OrderDetails } from "../OrderDetails/OrderDetails";
-import { useDispatch, useSelector } from "react-redux";
+
 import { getIngElements } from "../../services/actions";
 import { ProfilePage } from "../../pages/ProfilePage";
 import {

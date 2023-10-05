@@ -7,7 +7,7 @@ export function IngredientsDetails() {
     (state) => state.ingredientReducer.ingredient
   );
   const { id } = useParams<{ id: string }>();
-  const ing = ingredients.find((el: any) => el._id === id);
+  const ing = ingredients.find((el) => el._id === id);
   console.log(ing, "информация для тестов");
 
   return (

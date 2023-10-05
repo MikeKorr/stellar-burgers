@@ -1,14 +1,14 @@
 import styles from "./Pages.module.css";
-import { useDispatch } from "react-redux";
+
 import { userLogin } from "../services/actions/route-actions";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link, Redirect } from "react-router-dom";
 import {
   Input,
   Button,
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useSelector } from "react-redux";
+
 import { FormEventHandler } from "react";
 import { useAppSelector, useAppDispatch } from "../services/hooks/hooks";
 import { useLocation } from "react-router-dom";
@@ -27,9 +27,6 @@ export function LoginPage() {
     dispatch(userLogin(user));
   };
 
-  // if (login) {
-  //   return <Redirect to={"/profile"} />;
-  // }
   const location = useLocation();
   if (login) {
     return <Redirect to={{ pathname: "/", state: { from: location } }} />;

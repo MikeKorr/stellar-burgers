@@ -1,11 +1,10 @@
 import styles from "./Pages.module.css";
-import { useCallback, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+
 import {
   Input,
   Button,
   PasswordInput,
-  EditIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { patchProfileInfo } from "../services/actions/route-actions";
 import { useState } from "react";
