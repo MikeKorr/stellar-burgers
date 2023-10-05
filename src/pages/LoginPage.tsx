@@ -11,6 +11,7 @@ import {
 import { useSelector } from "react-redux";
 import { FormEventHandler } from "react";
 import { useAppSelector, useAppDispatch } from "../services/hooks/hooks";
+import { useLocation } from "react-router-dom";
 
 export function LoginPage() {
   const dispatch = useAppDispatch();
@@ -26,8 +27,12 @@ export function LoginPage() {
     dispatch(userLogin(user));
   };
 
+  // if (login) {
+  //   return <Redirect to={"/profile"} />;
+  // }
+  const location = useLocation();
   if (login) {
-    return <Redirect to="/profile" />;
+    return <Redirect to={{ pathname: "/", state: { from: location } }} />;
   }
 
   return (

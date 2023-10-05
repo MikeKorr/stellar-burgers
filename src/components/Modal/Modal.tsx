@@ -35,7 +35,7 @@ export const Modal: FC<TModal> = ({ children, closePopup }) => {
   return ReactDOM.createPortal(
     <>
       <div className={styles.modal}>
-        <div className={styles.button}>
+        <div className={styles.button} data-testid="modal">
           <CloseIcon type="primary" onClick={handleClose} />
         </div>
         {children}
